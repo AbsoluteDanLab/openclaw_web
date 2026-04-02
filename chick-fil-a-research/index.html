@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chick-fil-A vs McDonald's 调研报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #E51636 0%, #C41230 100%);
+            padding: 30px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header.chick-fil-a {
+            background: linear-gradient(135deg, #D8282F 0%, #B71C1C 100%);
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .vs-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: -40px 0 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .brand-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .brand-logo.cfa {
+            background: #D8282F;
+        }
+        
+        .brand-logo.mcd {
+            background: #FFC72C;
+            color: #DA291C;
+        }
+        
+        .vs-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        
+        .card-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: linear-gradient(135deg, #D8282F 0%, #FFC72C 100%);
+            border-radius: 2px;
+        }
+        
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .compare-table th {
+            text-align: left;
+            padding: 12px 10px;
+            font-size: 12px;
+            color: #666;
+            border-bottom: 2px solid #f0f0f0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .compare-table td {
+            padding: 14px 10px;
+            font-size: 14px;
+            border-bottom: 1px solid #f5f5f5;
+            vertical-align: top;
+        }
+        
+        .compare-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .compare-table .label {
+            color: #666;
+            font-weight: 500;
+            width: 35%;
+        }
+        
+        .cfa-value {
+            color: #D8282F;
+            font-weight: 600;
+        }
+        
+        .mcd-value {
+            color: #DA291C;
+            font-weight: 600;
+        }
+        
+        .highlight {
+            background: #FFF8E1;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .stat-box {
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-box.cfa {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+        }
+        
+        .stat-box.mcd {
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .stat-value.cfa {
+            color: #D8282F;
+        }
+        
+        .stat-value.mcd {
+            color: #DA291C;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 280px;
+            margin: 16px 0;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .feature-icon.cfa {
+            background: #FFEBEE;
+        }
+        
+        .feature-icon.mcd {
+            background: #FFF8E1;
+        }
+        
+        .feature-content h4 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .feature-content p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .insight-box {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .insight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1565C0;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .insight-content {
+            font-size: 14px;
+            color: #1976D2;
+            line-height: 1.6;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .pros, .cons {
+            padding: 16px;
+            border-radius: 12px;
+        }
+        
+        .pros {
+            background: #E8F5E9;
+        }
+        
+        .cons {
+            background: #FFEBEE;
+        }
+        
+        .pros h4, .cons h4 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .pros h4 {
+            color: #2E7D32;
+        }
+        
+        .cons h4 {
+            color: #C62828;
+        }
+        
+        .pros ul, .cons ul {
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        
+        .pros li {
+            color: #388E3C;
+        }
+        
+        .cons li {
+            color: #D32F2F;
+        }
+        
+        .pros li::before {
+            content: '✓ ';
+        }
+        
+        .cons li::before {
+            content: '✗ ';
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #D8282F, #FFC72C);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding: 12px 0;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 18px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #D8282F;
+            border: 2px solid white;
+        }
+        
+        .timeline-item.mcd::before {
+            background: #FFC72C;
+        }
+        
+        .timeline-year {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+        
+        .timeline-text {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+        }
+        
+        .summary-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .summary-text {
+            font-size: 14px;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+        
+        .nav-float {
+            position: fixed;
+            right: 20px;
+            bottom: 100px;
+            z-index: 1000;
+        }
+        
+        .nav-toggle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #D8282F 0%, #C41230 100%);
+            border: none;
+            box-shadow: 0 4px 20px rgba(216, 40, 47, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-toggle svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+        
+        .nav-menu {
+            position: absolute;
+            bottom: 62px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        .nav-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 10px 16px;
+            color: #333;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(135deg, #D8282F 0%, #FFC72C 100%);
+            color: white;
+        }
+        
+        .back-top {
+            position: fixed;
+            left: 20px;
+            bottom: 100px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .back-top.visible {
+            opacity: 1;
+        }
+        
+        .back-top svg {
+            width: 18px;
+            height: 18px;
+            fill: #D8282F;
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .vs-banner {
+                margin: -30px 10px 20px;
+            }
+            
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header chick-fil-a">
+        <h1>🍗 快餐连锁品牌调研</h1>
+        <div class="subtitle">Chick-fil-A vs McDonald's 深度对比分析</div>
+    </div>
+    
+    <div class="container">
+        <!-- VS Banner -->
+        <div class="vs-banner">
+            <div class="brand-logo cfa">CFA</div>
+            <div class="vs-text">VS</div>
+            <div class="brand-logo mcd">M</div>
+        </div>
+        
+        <!-- 品牌概览 -->
+        <section id="overview">
+            <div class="card">
+                <div class="card-title">品牌概览</div>
+                <table class="compare-table">
+                    <tr>
+                        <td class="label">品牌名称</td>
+                        <td class="cfa-value">Chick-fil-A</td>
+                        <td class="mcd-value">McDonald's</td>
+                    </tr>
+                    <tr>
+                        <td class="label">成立年份</td>
+                        <td>1967年</td>
+                        <td>1940年</td>
+                    </tr>
+                    <tr>
+                        <td class="label">总部</td>
+                        <td>亚特兰大，乔治亚州</td>
+                        <td>芝加哥，伊利诺伊州</td>
+                    </tr>
+                    <tr>
+                        <td class="label">创始人</td>
+                        <td>S. Truett Cathy</td>
+                        <td>Richard & Maurice McDonald</td>
+                    </tr>
+                    <tr>
+                        <td class="label">品牌定位</td>
+                        <td>高端鸡肉快餐</td>
+                        <td>大众快餐领导者</td>
+                    </tr>
+                    <tr>
+                        <td class="label">核心价值观</td>
+                        <td>客户服务、品质优先</td>
+                        <td>速度、便捷、一致性</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 核心数据对比 -->
+        <section id="data">
+            <div class="card">
+                <div class="card-title">核心数据对比 (2024)</div>
+                <div class="stat-grid">
+                    <div class="stat-box cfa">
+                        <div class="stat-label">Chick-fil-A 年营收</div>
+                        <div class="stat-value cfa">$21.8B</div>
+                    </div>
+                    <div class="stat-box mcd">
+                        <div class="stat-label">McDonald's 美国营收</div>
+                        <div class="stat-value mcd">$13.2B</div>
+                    </div>
+                    <div class="stat-box cfa">
+                        <div class="stat-label">CFA 美国门店</div>
+                        <div class="stat-value cfa">3,059</div>
+                    </div>
+                    <div class="stat-box mcd">
+                        <div class="stat-label">McDonald's 美国门店</div>
+                        <div class="stat-value mcd">13,500</div>
+                    </div>
+                    <div class="stat-box cfa">
+                        <div class="stat-label">CFA 单店平均销售额</div>
+                        <div class="stat-value cfa">$7.1M</div>
+                    </div>
+                    <div class="stat-box mcd">
+                        <div class="stat-label">McDonald's 单店平均</div>
+                        <div class="stat-value mcd">$3.3M</div>
+                    </div>
+                    <div class="stat-box cfa">
+                        <div class="stat-label">CFA 客户满意度</div>
+                        <div class="stat-value cfa">87分</div>
+                    </div>
+                    <div class="stat-box mcd">
+                        <div class="stat-label">McDonald's 客户满意度</div>
+                        <div class="stat-value mcd">69分</div>
+                    </div>
+                </div>
+                
+                <div class="insight-box">
+                    <div class="insight-title">💡 关键洞察</div>
+                    <div class="insight-content">
+                        Chick-fil-A 以不到McDonald's 1/4的门店数量，实现了更高的美国市场营收。单店平均销售额是McDonald's的<span class="highlight">2.15倍</span>，展现了卓越的运营效率和品牌号召力。
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 营收趋势 -->
+        <section id="revenue">
+            <div class="card">
+                <div class="card-title">营收增长趋势</div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 产品与菜单 -->
+        <section id="product">
+            <div class="card">
+                <div class="card-title">产品与菜单策略</div>
+                
+                <h4 style="font-size:15px; color:#D8282F; margin-bottom:12px;">🍗 Chick-fil-A</h4>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-icon cfa">🎯</div>
+                        <div class="feature-content">
+                            <h4>聚焦鸡肉品类</h4>
+                            <p>专注于鸡肉产品，做到极致。招牌原味鸡肉三明治是核心爆品</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon cfa">🌟</div>
+                        <div class="feature-content">
+                            <h4>精简菜单策略</h4>
+                            <p>菜单项仅约40个，保证每样产品的高品质和快速出餐</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon cfa">🥗</div>
+                        <div class="feature-content">
+                            <h4>健康化升级</h4>
+                            <p>提供烤鸡选项、沙拉、水果杯，满足健康饮食需求</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <h4 style="font-size:15px; color:#DA291C; margin:20px 0 12px;">🍔 McDonald's</h4>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-icon mcd">🌈</div>
+                        <div class="feature-content">
+                            <h4>全品类覆盖</h4>
+                            <p>牛肉、鸡肉、鱼肉、早餐、甜点，满足多样化需求</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon mcd">📦</div>
+                        <div class="feature-content">
+                            <h4>丰富菜单选项</h4>
+                            <p>菜单项超过150个，全球标准化但保留地区特色</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon mcd">💰</div>
+                        <div class="feature-content">
+                            <h4>价值导向定价</h4>
+                            <p>$1 $2 $3 Dollar Menu，强调性价比和可负担性</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 门店分布 -->
+        <section id="stores">
+            <div class="card">
+                <div class="card-title">门店分布与运营</div>
+                <div class="chart-container">
+                    <canvas id="storeChart"></canvas>
+                </div>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Chick-fil-A 优势</h4>
+                        <ul>
+                            <li>单店效率行业第一</li>
+                            <li>特许经营门槛高</li>
+                            <li>选址精准购物中心</li>
+                        </ul>
+                    </div>
+                    <div class="cons" style="background:#FFF3E0;">
+                        <h4>McDonald's 优势</h4>
+                        <ul style="color:#E65100;">
+                            <li>覆盖密度极高</li>
+                            <li>24小时营业</li>
+                            <li>得来速占比65%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 客户体验 -->
+        <section id="experience">
+            <div class="card">
+                <div class="card-title">客户体验对比</div>
+                
+                <table class="compare-table">
+                    <tr>
+                        <td class="label">服务理念</td>
+                        <td class="cfa-value">顾客至上</td>
+                        <td class="mcd-value">速度优先</td>
+                    </tr>
+                    <tr>
+                        <td class="label">员工培训</td>
+                        <td>深度培训，服务热情</td>
+                        <td>标准化培训，流程化</td>
+                    </tr>
+                    <tr>
+                        <td class="label">营业时间</td>
+                        <td>周日闭店</td>
+                        <td>24小时营业</td>
+                    </tr>
+                    <tr>
+                        <td class="label">得来速效率</td>
+                        <td>平均107秒</td>
+                        <td>平均203秒</td>
+                    </tr>
+                    <tr>
+                        <td class="label">APP体验</td>
+                        <td>高评分4.9/5</td>
+                        <td>评分4.5/5</td>
+                    </tr>
+                    <tr>
+                        <td class="label">忠诚度计划</td>
+                        <td>Chick-fil-A One</td>
+                        <td>MyMcDonald's Rewards</td>
+                    </tr>
+                </table>
+                
+                <div class="insight-box" style="background:linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);">
+                    <div class="insight-title" style="color:#C62828;">🏆 服务差异化</div>
+                    <div class="insight-content" style="color:#D32F2F;">
+                        Chick-fil-A 连续8年蝉联美国客户满意度指数(ACSI)快餐业第一名。员工会说"我很荣幸为您服务"(My pleasure)成为品牌标志性服务用语。
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 品牌策略 -->
+        <section id="strategy">
+            <div class="card">
+                <div class="card-title">品牌营销策略</div>
+                
+                <div style="margin-bottom:20px;">
+                    <h4 style="font-size:15px; color:#D8282F; margin-bottom:12px;">Chick-fil-A 营销特色</h4>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <div class="feature-icon cfa">🐄</div>
+                            <div class="feature-content">
+                                <h4>Cow 营销活动</h4>
+                                <p>标志性的"Eat Mor Chikin"奶牛广告，幽默有趣，极具辨识度</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon cfa">❤️</div>
+                            <div class="feature-content">
+                                <h4>社区参与</h4>
+                                <p>赞助当地学校、慈善活动，建立深度社区连接</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon cfa">✝️</div>
+                            <div class="feature-content">
+                                <h4>价值观驱动</h4>
+                                <p>周日闭店体现信仰价值观，吸引特定客群忠诚</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="font-size:15px; color:#DA291C; margin-bottom:12px;">McDonald's 营销特色</h4>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <div class="feature-icon mcd">🎉</div>
+                            <div class="feature-content">
+                                <h4>全球品牌活动</h4>
+                                <p>"I'm Lovin' It"口号深入人心，全球统一品牌形象</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon mcd">🎁</div>
+                            <div class="feature-content">
+                                <h4>联名与IP合作</h4>
+                                <p>迪士尼联名玩具、明星代言、潮流跨界合作</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-icon mcd">📱</div>
+                            <div class="feature-content">
+                                <h4>数字化营销</h4>
+                                <p>APP积分、个性化推送、移动点餐全方位数字化</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 发展历程 -->
+        <section id="history">
+            <div class="card">
+                <div class="card-title">重要发展里程碑</div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1967</div>
+                        <div class="timeline-text">Chick-fil-A 第一家餐厅在亚特兰大开业</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1968</div>
+                        <div class="timeline-text">推出标志性的原味鸡肉三明治</div>
+                    </div>
+                    <div class="timeline-item mcd">
+                        <div class="timeline-year">1975</div>
+                        <div class="timeline-text">McDonald's 推出第一个得来速(Drive-Thru)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">1982</div>
+                        <div class="timeline-text">Chick-fil-A 首次进入购物中心</div>
+                    </div>
+                    <div class="timeline-item mcd">
+                        <div class="timeline-year">2003</div>
+                        <div class="timeline-text">McDonald's 全球门店突破30,000家</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2016</div>
+                        <div class="timeline-text">Chick-fil-A 推出移动APP，数字化战略启动</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2022</div>
+                        <div class="timeline-text">Chick-fil-A 单店平均销售额突破$700万</div>
+                    </div>
+                    <div class="timeline-item mcd">
+                        <div class="timeline-year">2024</div>
+                        <div class="timeline-text">McDonald's 美国加速数字化转型，推出CosMc's概念店</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SWOT 分析 -->
+        <section id="swot">
+            <div class="card">
+                <div class="card-title">SWOT 对比分析</div>
+                
+                <div style="margin-bottom:20px;">
+                    <h4 style="font-size:15px; color:#D8282F; margin-bottom:12px;">Chick-fil-A</h4>
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>优势 Strengths</h4>
+                            <ul>
+                                <li>单店效率行业最高</li>
+                                <li>客户忠诚度极高</li>
+                                <li>品牌美誉度高</li>
+                                <li>员工满意度高</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>劣势 Weaknesses</h4>
+                            <ul>
+                                <li>周日闭店损失营收</li>
+                                <li>门店覆盖有限</li>
+                                <li>品类单一风险</li>
+                                <li>争议性品牌立场</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="font-size:15px; color:#DA291C; margin-bottom:12px;">McDonald's</h4>
+                    <div class="pros-cons">
+                        <div class="pros" style="background:#FFF8E1;">
+                            <h4 style="color:#F57C00;">优势 Strengths</h4>
+                            <ul style="color:#FF8F00;">
+                                <li>全球规模优势</li>
+                                <li>供应链效率</li>
+                                <li>品牌知名度第一</li>
+                                <li>全天候营业</li>
+                            </ul>
+                        </div>
+                        <div class="cons" style="background:#F5F5F5;">
+                            <h4 style="color:#616161;">劣势 Weaknesses</h4>
+                            <ul style="color:#757575;">
+                                <li>健康形象挑战</li>
+                                <li>员工流动性高</li>
+                                <li>单店效率较低</li>
+                                <li>品牌老化风险</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 总结与展望 -->
+        <section id="summary">
+            <div class="summary-box">
+                <div class="summary-title">📊 调研总结</div>
+                <div class="summary-text">
+                    <p><strong>市场定位差异：</strong>Chick-fil-A 走高端精品路线，以极致服务和品质赢得高忠诚度客群；McDonald's 坚持大众化策略，以规模和便捷覆盖广泛市场。</p>
+                    <br>
+                    <p><strong>运营效率对比：</strong>Chick-fil-A 单店平均销售额是 McDonald's 的 2.15 倍，展现了"少而精"战略的成功。但 McDonald's 依靠门店数量优势，仍保持绝对市场份额领先。</p>
+                    <br>
+                    <p><strong>未来趋势：</strong>两家品牌都在加速数字化转型。Chick-fil-A 有望继续拓展市场覆盖，而 McDonald's 正在通过概念店创新和数字化升级提升单店效率。</p>
+                    <br>
+                    <p><strong>启示：</strong>在快餐行业，"聚焦"与"规模"是两种可行的成功路径。关键在于找到与品牌基因匹配的战略，并持续坚持执行。</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 数据来源 -->
+        <section id="source">
+            <div class="card">
+                <div class="card-title">数据来源</div>
+                <div class="summary-text" style="font-size:13px; color:#666; line-height:1.8;">
+                    本报告数据来源于公开财报、行业研究报告及权威媒体报导，包括 QSR Magazine、ACSI、Statista 等。数据仅供参考，实际以官方发布为准。
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- 悬浮导航 -->
+    <div class="nav-float">
+        <button class="nav-toggle" onclick="toggleNav()">
+            <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <a href="#overview" class="nav-item active">品牌概览</a>
+            <a href="#data" class="nav-item">核心数据</a>
+            <a href="#revenue" class="nav-item">营收趋势</a>
+            <a href="#product" class="nav-item">产品菜单</a>
+            <a href="#stores" class="nav-item">门店运营</a>
+            <a href="#experience" class="nav-item">客户体验</a>
+            <a href="#strategy" class="nav-item">品牌营销</a>
+            <a href="#history" class="nav-item">发展历程</a>
+            <a href="#swot" class="nav-item">SWOT分析</a>
+            <a href="#summary" class="nav-item">调研总结</a>
+        </div>
+    </div>
+    
+    <!-- 回到顶部 -->
+    <button class="back-top" id="backTop" onclick="scrollToTop()">
+        <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+    </button>
+    
+    <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script>
+        // 营收趋势图
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Chick-fil-A (十亿美元)',
+                    data: [13.7, 16.7, 18.8, 21.0, 21.8],
+                    borderColor: '#D8282F',
+                    backgroundColor: 'rgba(216, 40, 47, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: "McDonald's US (十亿美元)",
+                    data: [11.1, 12.1, 12.6, 13.0, 13.2],
+                    borderColor: '#DA291C',
+                    backgroundColor: 'rgba(218, 41, 28, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true, padding: 12 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+        
+        // 门店对比图
+        const storeCtx = document.getElementById('storeChart').getContext('2d');
+        new Chart(storeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['门店数量', '单店销售额(百万美元)', '客户满意度'],
+                datasets: [{
+                    label: 'Chick-fil-A',
+                    data: [3059, 7.1, 87],
+                    backgroundColor: '#D8282F',
+                    borderRadius: 8
+                }, {
+                    label: "McDonald's",
+                    data: [13500, 3.3, 69],
+                    backgroundColor: '#FFC72C',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true, padding: 12 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+        
+        // 导航功能
+        function toggleNav() {
+            document.getElementById('navMenu').classList.toggle('active');
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 滚动监听
+        window.addEventListener('scroll', () => {
+            const backTop = document.getElementById('backTop');
+            backTop.classList.toggle('visible', window.scrollY > 300);
+            
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100 && navItems[index]) {
+                    navItems.forEach(item => item.classList.remove('active'));
+                    navItems[index].classList.add('active');
+                }
+            });
+        });
+        
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
