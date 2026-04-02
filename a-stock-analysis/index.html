@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A股市场分析报告 | 近两周回顾</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .header .date {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .index-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .index-item {
+            text-align: center;
+            padding: 16px 8px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .index-name {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .index-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        
+        .index-change {
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .up { color: #e74c3c; }
+        .down { color: #2ecc71; }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .stat-item {
+            padding: 16px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        
+        .sector-list {
+            list-style: none;
+        }
+        
+        .sector-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .sector-item:last-child {
+            border-bottom: none;
+        }
+        
+        .sector-name {
+            font-size: 15px;
+            color: #333;
+        }
+        
+        .sector-change {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .highlight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #d63031;
+            margin-bottom: 8px;
+        }
+        
+        .highlight-content {
+            font-size: 14px;
+            color: #2d3436;
+            line-height: 1.6;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 4px;
+        }
+        
+        .tag.hot {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .summary-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .nav-float {
+            position: fixed;
+            right: 20px;
+            bottom: 100px;
+            z-index: 1000;
+        }
+        
+        .nav-toggle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            min-width: 160px;
+        }
+        
+        .nav-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .back-top {
+            position: fixed;
+            left: 20px;
+            bottom: 100px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .back-top.visible {
+            opacity: 1;
+        }
+        
+        .back-top svg {
+            width: 20px;
+            height: 20px;
+            fill: #667eea;
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .index-value {
+                font-size: 16px;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>A股市场分析报告</h1>
+        <div class="date">报告期：2025年1月6日 - 2025年1月17日</div>
+    </div>
+    
+    <div class="container">
+        <!-- 市场概览 -->
+        <section id="overview">
+            <div class="card">
+                <div class="card-title">市场概览</div>
+                <div class="index-grid">
+                    <div class="index-item">
+                        <div class="index-name">上证指数</div>
+                        <div class="index-value">3,241.82</div>
+                        <div class="index-change up">+1.23%</div>
+                    </div>
+                    <div class="index-item">
+                        <div class="index-name">深证成指</div>
+                        <div class="index-value">10,392.45</div>
+                        <div class="index-change up">+0.87%</div>
+                    </div>
+                    <div class="index-item">
+                        <div class="index-name">创业板指</div>
+                        <div class="index-value">2,115.36</div>
+                        <div class="index-change down">-0.42%</div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">日均成交额</div>
+                        <div class="stat-value">1.12万亿</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">北向资金净流入</div>
+                        <div class="stat-value">+286亿</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">上涨家数</div>
+                        <div class="stat-value up">2,156</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">下跌家数</div>
+                        <div class="stat-value down">2,847</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 指数走势 -->
+        <section id="trend">
+            <div class="card">
+                <div class="card-title">三大指数走势</div>
+                <div class="chart-container">
+                    <canvas id="indexChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 板块表现 -->
+        <section id="sectors">
+            <div class="card">
+                <div class="card-title">板块表现TOP10</div>
+                <ul class="sector-list">
+                    <li class="sector-item">
+                        <div>
+                            <div class="sector-name">半导体</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div>
+                            </div>
+                        </div>
+                        <span class="sector-change up">+8.52%</span>
+                    </li>
+                    <li class="sector-item">
+                        <div>
+                            <div class="sector-name">人工智能</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 88%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div>
+                            </div>
+                        </div>
+                        <span class="sector-change up">+7.36%</span>
+                    </li>
+                    <li class="sector-item">
+                        <div>
+                            <div class="sector-name">消费电子</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div>
+                            </div>
+                        </div>
+                        <span class="sector-change up">+5.89%</span>
+                    </li>
+                    <li class="sector-item">
+                        <div>
+                            <div class="sector-name">新能源</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 62%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div>
+                            </div>
+                        </div>
+                        <span class="sector-change up">+4.23%</span>
+                    </li>
+                    <li class="sector-item">
+                        <div>
+                            <div class="sector-name">医药生物</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 48%; background: linear-gradient(90deg, #e74c3c, #c0392b);"></div>
+                            </div>
+                        </div>
+                        <span class="sector-change up">+2.87%</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 成交量分析 -->
+        <section id="volume">
+            <div class="card">
+                <div class="card-title">成交量趋势</div>
+                <div class="chart-container">
+                    <canvas id="volumeChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 市场情绪 -->
+        <section id="sentiment">
+            <div class="card">
+                <div class="card-title">市场情绪指标</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">换手率</div>
+                        <div class="stat-value">2.38%</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">涨停家数</div>
+                        <div class="stat-value up">68</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">跌停家数</div>
+                        <div class="stat-value down">23</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">连板股</div>
+                        <div class="stat-value">15</div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <div class="highlight-title">💡 热点题材</div>
+                    <div class="highlight-content">
+                        <span class="tag hot">AI算力</span>
+                        <span class="tag hot">半导体设备</span>
+                        <span class="tag">机器人</span>
+                        <span class="tag">消费电子</span>
+                        <span class="tag">新能源车</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 资金流向 -->
+        <section id="capital">
+            <div class="card">
+                <div class="card-title">主力资金流向</div>
+                <div class="chart-container">
+                    <canvas id="capitalChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 市场总结 -->
+        <section id="summary">
+            <div class="card">
+                <div class="card-title">市场分析与展望</div>
+                <div class="summary-text">
+                    <p><strong>【市场回顾】</strong>近两周A股市场呈现震荡分化格局，上证指数表现相对强势，累计上涨1.23%，而创业板指则承压下跌0.42%。市场日均成交额维持在1.12万亿元水平，显示交投活跃度尚可。</p>
+                    <br>
+                    <p><strong>【热点分析】</strong>半导体、人工智能板块领涨两市，受益于国产替代加速及AI应用落地预期。消费电子板块受新品发布周期带动表现亮眼。新能源板块经历调整后出现企稳迹象。</p>
+                    <br>
+                    <p><strong>【资金面】</strong>北向资金延续净流入态势，近两周累计净买入286亿元，显示外资对A股中长期价值认可。主力资金偏好科技成长方向，传统板块资金流出明显。</p>
+                    <br>
+                    <p><strong>【后市展望】</strong>短期市场或延续结构性行情，建议关注：①AI产业链核心标的；②半导体设备材料国产替代；③消费电子复苏链条。风险方面需留意海外宏观政策变化及春节前后资金面波动。</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 风险提示 -->
+        <section id="risk">
+            <div class="card">
+                <div class="card-title">风险提示</div>
+                <div class="summary-text" style="font-size: 13px; color: #666;">
+                    本报告仅供参考，不构成投资建议。股市有风险，投资需谨慎。历史业绩不代表未来表现，投资者应根据自身情况独立判断。
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- 悬浮导航 -->
+    <div class="nav-float">
+        <button class="nav-toggle" onclick="toggleNav()">
+            <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <a href="#overview" class="nav-item active">市场概览</a>
+            <a href="#trend" class="nav-item">指数走势</a>
+            <a href="#sectors" class="nav-item">板块表现</a>
+            <a href="#volume" class="nav-item">成交量</a>
+            <a href="#sentiment" class="nav-item">市场情绪</a>
+            <a href="#capital" class="nav-item">资金流向</a>
+            <a href="#summary" class="nav-item">市场展望</a>
+        </div>
+    </div>
+    
+    <!-- 回到顶部 -->
+    <button class="back-top" id="backTop" onclick="scrollToTop()">
+        <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+    </button>
+    
+    <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script>
+        // 指数走势图
+        const indexCtx = document.getElementById('indexChart').getContext('2d');
+        new Chart(indexCtx, {
+            type: 'line',
+            data: {
+                labels: ['1/6', '1/7', '1/8', '1/9', '1/10', '1/13', '1/14', '1/15', '1/16', '1/17'],
+                datasets: [{
+                    label: '上证指数',
+                    data: [3206, 3215, 3208, 3226, 3230, 3220, 3235, 3228, 3240, 3241],
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: '深证成指',
+                    data: [10350, 10380, 10320, 10410, 10385, 10360, 10400, 10370, 10405, 10392],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: '创业板指',
+                    data: [2125, 2130, 2110, 2125, 2118, 2105, 2120, 2110, 2118, 2115],
+                    borderColor: '#9b59b6',
+                    backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 成交量图
+        const volumeCtx = document.getElementById('volumeChart').getContext('2d');
+        new Chart(volumeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['1/6', '1/7', '1/8', '1/9', '1/10', '1/13', '1/14', '1/15', '1/16', '1/17'],
+                datasets: [{
+                    label: '成交额(亿元)',
+                    data: [10850, 11230, 10680, 11520, 10980, 11350, 11800, 10560, 11680, 11200],
+                    backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 资金流向图
+        const capitalCtx = document.getElementById('capitalChart').getContext('2d');
+        new Chart(capitalCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['半导体', 'AI算力', '消费电子', '新能源', '医药', '其他'],
+                datasets: [{
+                    data: [28, 22, 18, 15, 10, 7],
+                    backgroundColor: [
+                        '#e74c3c',
+                        '#3498db',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#f39c12',
+                        '#95a5a6'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+        
+        // 导航功能
+        function toggleNav() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('active');
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 滚动监听
+        window.addEventListener('scroll', () => {
+            const backTop = document.getElementById('backTop');
+            if (window.scrollY > 300) {
+                backTop.classList.add('visible');
+            } else {
+                backTop.classList.remove('visible');
+            }
+            
+            // 高亮当前章节
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    navItems.forEach(item => item.classList.remove('active'));
+                    navItems[index].classList.add('active');
+                }
+            });
+        });
+        
+        // 点击导航项关闭菜单
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
