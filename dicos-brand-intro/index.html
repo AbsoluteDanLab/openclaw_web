@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>德克士品牌介绍 | Dicos</title>
+    <style>
+        :root {
+            --primary: #E60012;
+            --primary-dark: #C4000F;
+            --primary-light: #FDE8EB;
+            --secondary: #FFC20E;
+            --accent: #FF6B00;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555;
+            --text-tertiary: #888;
+            --bg-primary: #fff;
+            --bg-secondary: #f8f8f8;
+            --border: #eee;
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 48px 24px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 250px;
+            height: 250px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content { position: relative; z-index: 1; }
+
+        .brand-logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .brand-logo span {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary);
+            font-family: Arial Black, sans-serif;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-tag {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+        }
+
+        /* Stats */
+        .stats-section {
+            padding: 24px;
+            margin-top: -20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-value span { font-size: 14px; }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+
+        /* Section */
+        .section { padding: 28px 20px; }
+
+        .section-header { margin-bottom: 16px; }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Intro Card */
+        .intro-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 18px;
+        }
+
+        .intro-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .intro-card p:last-child { margin-bottom: 0; }
+
+        .highlight { color: var(--primary); font-weight: 500; }
+
+        /* Timeline */
+        .timeline-item {
+            display: flex;
+            gap: 14px;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item:last-child { padding-bottom: 0; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 38px;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .timeline-item:last-child::before { display: none; }
+
+        .timeline-marker {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            z-index: 1;
+        }
+
+        .timeline-marker.milestone {
+            background: var(--primary);
+            color: white;
+        }
+
+        .timeline-content { flex: 1; padding-top: 2px; }
+
+        .timeline-year {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .timeline-title-text {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .timeline-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .timeline-tag {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--text-primary);
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .feature-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .feature-desc {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            line-height: 1.5;
+        }
+
+        /* Data List */
+        .data-list {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-item:last-child { border-bottom: none; }
+
+        .data-label { font-size: 14px; color: var(--text-secondary); }
+
+        .data-value { font-size: 14px; font-weight: 600; }
+
+        /* Quote */
+        .quote-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 36px 24px;
+            text-align: center;
+        }
+
+        .quote-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: white;
+            line-height: 1.7;
+        }
+
+        .quote-author {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            margin-top: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 28px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .footer-text { font-size: 12px; color: var(--text-tertiary); }
+
+        /* 悬浮导航 */
+        .float-nav {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .float-nav.collapsed {
+            transform: translateY(-50%) translateX(calc(100% - 36px));
+        }
+
+        .float-nav-toggle {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 60px;
+            background: var(--primary);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            z-index: 1;
+        }
+
+        .float-nav-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+
+        .float-nav.collapsed .float-nav-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        .float-nav-menu {
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            padding: 12px 0;
+            min-width: 130px;
+            margin-right: 36px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .float-nav.collapsed .float-nav-menu {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .float-nav-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            padding: 8px 16px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4px;
+        }
+
+        .float-nav-item {
+            display: block;
+            padding: 10px 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .float-nav-item:hover,
+        .float-nav-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .float-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .float-nav-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top {
+            position: fixed;
+            right: 16px;
+            bottom: 24px;
+            width: 44px;
+            height: 44px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- Hero -->
+        <header class="hero" id="top">
+            <div class="hero-content">
+                <div class="brand-logo"><span>D</span></div>
+                <h1>德克士 Dicos</h1>
+                <p class="hero-subtitle">中国西式快餐领导品牌 · 脆皮炸鸡创领者</p>
+                <div class="hero-tags">
+                    <span class="hero-tag">🏆 中国本土快餐巨头</span>
+                    <span class="hero-tag">🍗 脆皮炸鸡年销超2亿份</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats -->
+        <section class="stats-section" id="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">30<span>+</span></div>
+                    <div class="stat-label">发展年限</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">3000<span>+</span></div>
+                    <div class="stat-label">全国门店</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">200<span>+</span></div>
+                    <div class="stat-label">覆盖城市</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Intro -->
+        <section class="section" id="intro">
+            <div class="section-header">
+                <h2 class="section-title">品牌简介</h2>
+            </div>
+            <div class="intro-card">
+                <p>
+                    <span class="highlight">德克士（Dicos）</span>是中国知名的西式快餐连锁品牌，隶属于<span class="highlight">顶新国际集团</span>。品牌名称"Dicos"寓意"Delicious（美味）+ Chicken（鸡肉）+ Service（服务）"。
+                </p>
+                <p>
+                    德克士以<span class="highlight">"脆皮炸鸡"</span>为核心产品，采用独特配方和工艺，创造出外酥里嫩的独特口感。品牌坚持"中国特色"的本土化策略，深耕三四线城市市场，成为下沉市场的西式快餐领导者。
+                </p>
+                <p>
+                    经过近30年发展，德克士在中国大陆的门店数量已突破3000家，覆盖全国200多个城市，是中国规模最大的本土西式快餐品牌之一。
+                </p>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="section" id="history">
+            <div class="section-header">
+                <h2 class="section-title">发展历程</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker milestone">94</div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">1994年</div>
+                        <div class="timeline-title-text">品牌创立</div>
+                        <p class="timeline-desc">德克士在台湾正式创立，以炸鸡为主打产品，开启西式快餐之旅。</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">96</div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">1996年</div>
+                        <div class="timeline-title-text">进军大陆</div>
+                        <p class="timeline-desc">正式进入中国大陆市场，在成都开设第一家门店。</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker milestone">99</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag">关键转折</span>
+                        <div class="timeline-year">1999年</div>
+                        <div class="timeline-title-text">加入顶新国际集团</div>
+                        <p class="timeline-desc">被顶新国际集团收购，确立"脆皮炸鸡"为核心产品。</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">05</div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2005年</div>
+                        <div class="timeline-title-text">战略转型</div>
+                        <p class="timeline-desc">聚焦三四线城市市场，开创"农村包围城市"的发展路径。</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker milestone">09</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag">里程碑</span>
+                        <div class="timeline-year">2009年</div>
+                        <div class="timeline-title-text">门店突破1000家</div>
+                        <p class="timeline-desc">全国门店突破1000家，脆皮炸鸡年销量突破1亿份。</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">16</div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2016年</div>
+                        <div class="timeline-title-text">门店突破2000家</div>
+                        <p class="timeline-desc">门店突破2000家，推出"超级鸡腿堡"等爆款产品。</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">19</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag">25周年</span>
+                        <div class="timeline-year">2019年</div>
+                        <div class="timeline-title-text">品牌升级</div>
+                        <p class="timeline-desc">迎来品牌创立25周年，推出"因为热爱"品牌主张。</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker milestone">23</div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2023年</div>
+                        <div class="timeline-title-text">门店突破3000家</div>
+                        <p class="timeline-desc">门店突破3000家，覆盖31个省市，外卖业务占比超30%。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="section" id="features">
+            <div class="section-header">
+                <h2 class="section-title">品牌特色</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🍗</div>
+                    <div class="feature-title">脆皮炸鸡</div>
+                    <div class="feature-desc">核心拳头产品，年销超2亿份</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">下沉市场</div>
+                    <div class="feature-desc">聚焦三四线城市，差异化布局</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🇨🇳</div>
+                    <div class="feature-title">本土化创新</div>
+                    <div class="feature-desc">符合中国口味，持续产品创新</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏪</div>
+                    <div class="feature-title">加盟模式</div>
+                    <div class="feature-desc">成熟加盟体系，快速扩张</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data -->
+        <section class="section" id="data">
+            <div class="section-header">
+                <h2 class="section-title">经营数据</h2>
+            </div>
+            <div class="data-list">
+                <div class="data-item">
+                    <span class="data-label">创立年份</span>
+                    <span class="data-value">1994年</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">母公司</span>
+                    <span class="data-value">顶新国际集团</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">总部位置</span>
+                    <span class="data-value">上海</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">门店数量</span>
+                    <span class="data-value">3,000+ 家</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">覆盖范围</span>
+                    <span class="data-value">31省市 / 200+城市</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">招牌产品</span>
+                    <span class="data-value">脆皮炸鸡 / 超级鸡腿堡</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quote -->
+        <section class="quote-section">
+            <p class="quote-text">"因为热爱，所以坚持。做中国人自己的炸鸡品牌。"</p>
+            <p class="quote-author">—— 德克士品牌理念</p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-logo">DICOS 德克士</div>
+            <p class="footer-text">本页面仅供学习展示使用 · Powered by OpenClaw</p>
+        </footer>
+    </div>
+
+    <!-- 悬浮导航 -->
+    <div class="float-nav-overlay" id="navOverlay"></div>
+    <nav class="float-nav collapsed" id="floatNav">
+        <div class="float-nav-menu">
+            <div class="float-nav-title">快速导航</div>
+            <a href="#top" class="float-nav-item">⬆️ 返回顶部</a>
+            <a href="#intro" class="float-nav-item" data-section="intro">品牌简介</a>
+            <a href="#history" class="float-nav-item" data-section="history">发展历程</a>
+            <a href="#features" class="float-nav-item" data-section="features">品牌特色</a>
+            <a href="#data" class="float-nav-item" data-section="data">经营数据</a>
+        </div>
+        <button class="float-nav-toggle" id="navToggle">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+    </nav>
+    <button class="back-to-top" id="backToTop">
+        <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+    </button>
+
+    <script>
+        const floatNav = document.getElementById('floatNav');
+        const navToggle = document.getElementById('navToggle');
+        const navOverlay = document.getElementById('navOverlay');
+        const backToTop = document.getElementById('backToTop');
+        const navItems = document.querySelectorAll('.float-nav-item');
+
+        navToggle.addEventListener('click', () => {
+            floatNav.classList.toggle('collapsed');
+            navOverlay.classList.toggle('visible');
+        });
+
+        navOverlay.addEventListener('click', () => {
+            floatNav.classList.add('collapsed');
+            navOverlay.classList.remove('visible');
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                floatNav.classList.add('collapsed');
+                navOverlay.classList.remove('visible');
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (!floatNav.classList.contains('collapsed')) {
+                floatNav.classList.add('collapsed');
+                navOverlay.classList.remove('visible');
+            }
+            backToTop.classList.toggle('visible', window.scrollY > 300);
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
