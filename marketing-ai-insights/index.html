@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Marketing + AI 行业洞察报告 2025</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --bg: #0f0f23;
+            --card-bg: rgba(255,255,255,0.03);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255,255,255,0.08);
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 24px;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0f0f23 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.15;
+            top: -200px;
+            right: -200px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.1;
+            bottom: -100px;
+            left: -100px;
+            animation: pulse 10s ease-in-out infinite reverse;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.2); opacity: 0.2; }
+        }
+        .hero-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: clamp(28px, 8vw, 48px);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            z-index: 1;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 480px;
+            margin-bottom: 40px;
+            z-index: 1;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            z-index: 1;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 1;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+        .scroll-hint svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-muted);
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title .icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+            margin-left: 48px;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+        .card-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+        
+        /* Insight Grid */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .insight-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .insight-number {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .insight-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        
+        /* Application Cards */
+        .app-card {
+            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.05));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .app-content h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .app-content p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            position: relative;
+            height: 280px;
+        }
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        
+        /* Case Studies */
+        .case-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .case-header {
+            background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1));
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .case-logo {
+            width: 48px;
+            height: 48px;
+            background: #fff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .case-brand {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .case-industry {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .case-body {
+            padding: 20px;
+        }
+        .case-result {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+        .case-result-item {
+            flex: 1;
+        }
+        .case-result-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #22c55e;
+        }
+        .case-result-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .case-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 28px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: var(--bg);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+        }
+        .timeline-item.active::before {
+            background: var(--primary);
+            box-shadow: 0 0 12px var(--primary);
+        }
+        .timeline-date {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .timeline-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .timeline-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 40px 20px 100px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .footer-brand {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        
+        /* Floating Nav */
+        .float-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .float-btn {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(99,102,241,0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .float-btn:hover, .float-btn.active {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(99,102,241,0.5);
+        }
+        .float-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: rgba(15,15,35,0.95);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+        .float-nav.active .float-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .float-menu a {
+            display: block;
+            padding: 10px 14px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .float-menu a:hover, .float-menu a.active {
+            background: var(--card-bg);
+            color: var(--text);
+        }
+        .float-menu a.active {
+            color: var(--primary);
+        }
+        .float-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 8px 0;
+        }
+        
+        @media (max-width: 480px) {
+            .hero-stats { gap: 24px; }
+            .stat-value { font-size: 24px; }
+            .insight-grid { grid-template-columns: 1fr; }
+            .case-result { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero" id="overview">
+        <div class="hero-badge">Industry Report 2025</div>
+        <h1>Marketing + AI<br>行业洞察报告</h1>
+        <p class="hero-subtitle">深度解析人工智能如何重塑营销格局，探索数据驱动的增长新范式</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-value">$1.3T</div>
+                <div class="stat-label">2030年市场规模</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">78%</div>
+                <div class="stat-label">企业已采用AI营销</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3.5x</div>
+                <div class="stat-label">平均ROI提升</div>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Market Overview -->
+    <section class="section" id="market">
+        <h2 class="section-title">
+            <span class="icon">📊</span>
+            市场概览
+        </h2>
+        <p class="section-desc">AI营销市场呈现爆发式增长，技术成熟度不断提升</p>
+        
+        <div class="insight-grid">
+            <div class="insight-item">
+                <div class="insight-number">42%</div>
+                <div class="insight-label">年复合增长率</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-number">$365B</div>
+                <div class="insight-label">2025年市场规模</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-number">89%</div>
+                <div class="insight-label">营销人员认为AI不可或缺</div>
+            </div>
+            <div class="insight-item">
+                <div class="insight-number">5.2h</div>
+                <div class="insight-label">每周节省工作时间</div>
+            </div>
+        </div>
+        
+        <div class="chart-container" style="margin-top: 20px;">
+            <div class="chart-title">全球AI营销市场规模增长趋势（单位：十亿美元）</div>
+            <canvas id="marketChart"></canvas>
+        </div>
+    </section>
+
+    <!-- Applications -->
+    <section class="section" id="applications">
+        <h2 class="section-title">
+            <span class="icon">🚀</span>
+            核心应用场景
+        </h2>
+        <p class="section-desc">AI正在营销全链路中发挥关键作用</p>
+        
+        <div class="app-card">
+            <div class="app-icon">✍️</div>
+            <div class="app-content">
+                <h3>内容生成与优化</h3>
+                <p>AI可快速生成营销文案、社媒帖子、邮件主题等，并根据数据反馈自动优化内容策略，提升 engagement 35%以上</p>
+            </div>
+        </div>
+        
+        <div class="app-card">
+            <div class="app-icon">🎯</div>
+            <div class="app-content">
+                <h3>智能精准投放</h3>
+                <p>基于机器学习的实时竞价和受众定向，广告转化率提升40%，获客成本降低25%</p>
+            </div>
+        </div>
+        
+        <div class="app-card">
+            <div class="app-icon">🤖</div>
+            <div class="app-content">
+                <h3>对话式营销</h3>
+                <p>AI客服和聊天机器人7×24小时在线，处理80%常见咨询，客户满意度提升28%</p>
+            </div>
+        </div>
+        
+        <div class="app-card">
+            <div class="app-icon">📈</div>
+            <div class="app-content">
+                <h3>预测性分析</h3>
+                <p>预测客户行为、流失风险和LTV，帮助营销团队提前制定策略，客户留存率提升45%</p>
+            </div>
+        </div>
+        
+        <div class="app-card">
+            <div class="app-icon">🎨</div>
+            <div class="app-content">
+                <h3>个性化推荐</h3>
+                <p>基于用户行为的实时个性化内容和产品推荐，点击率提升60%，转化率翻倍</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Insights -->
+    <section class="section" id="data">
+        <h2 class="section-title">
+            <span class="icon">💡</span>
+            数据洞察
+        </h2>
+        <p class="section-desc">关键指标展现AI营销的强大效能</p>
+        
+        <div class="chart-container">
+            <div class="chart-title">AI营销 vs 传统营销效率对比</div>
+            <canvas id="efficiencyChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">企业AI营销投入分布</div>
+            <canvas id="investChart"></canvas>
+        </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section class="section" id="cases">
+        <h2 class="section-title">
+            <span class="icon">🏆</span>
+            标杆案例
+        </h2>
+        <p class="section-desc">领先品牌如何借助AI实现营销突破</p>
+        
+        <div class="case-card">
+            <div class="case-header">
+                <div class="case-logo">N</div>
+                <div>
+                    <div class="case-brand">Netflix</div>
+                    <div class="case-industry">流媒体 / 娱乐</div>
+                </div>
+            </div>
+            <div class="case-body">
+                <div class="case-result">
+                    <div class="case-result-item">
+                        <div class="case-result-value">80%</div>
+                        <div class="case-result-label">观看来自推荐</div>
+                    </div>
+                    <div class="case-result-item">
+                        <div class="case-result-value">$1B/年</div>
+                        <div class="case-result-label">推荐系统价值</div>
+                    </div>
+                </div>
+                <p class="case-desc">Netflix的AI推荐算法分析用户观看历史、评分和行为数据，为每位用户生成个性化内容推荐。系统还自动生成个性化缩略图，提升内容吸引力。</p>
+            </div>
+        </div>
+        
+        <div class="case-card">
+            <div class="case-header">
+                <div class="case-logo">S</div>
+                <div>
+                    <div class="case-brand">Sephora</div>
+                    <div class="case-industry">美妆零售</div>
+                </div>
+            </div>
+            <div class="case-body">
+                <div class="case-result">
+                    <div class="case-result-item">
+                        <div class="case-result-value">11%</div>
+                        <div class="case-result-label">转化率提升</div>
+                    </div>
+                    <div class="case-result-item">
+                        <div class="case-result-value">35%</div>
+                        <div class="case-result-label">客单价增长</div>
+                    </div>
+                </div>
+                <p class="case-desc">丝芙兰的Virtual Artist使用AR+AI技术让用户虚拟试妆，AI聊天机器人提供个性化美妆建议，大幅提升线上购物体验和转化率。</p>
+            </div>
+        </div>
+        
+        <div class="case-card">
+            <div class="case-header">
+                <div class="case-logo">C</div>
+                <div>
+                    <div class="case-brand">Coca-Cola</div>
+                    <div class="case-industry">快消品</div>
+                </div>
+            </div>
+            <div class="case-body">
+                <div class="case-result">
+                    <div class="case-result-item">
+                        <div class="case-result-value">3x</div>
+                        <div class="case-result-label">社媒互动增长</div>
+                    </div>
+                    <div class="case-result-item">
+                        <div class="case-result-value">60%</div>
+                        <div class="case-result-label">内容产出效率</div>
+                    </div>
+                </div>
+                <p class="case-desc">可口可乐利用AI生成创意内容，分析社交媒体情绪，实时调整营销策略。AI驱动的"Create Real Magic"平台让用户与AI共创广告内容。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trends -->
+    <section class="section" id="trends">
+        <h2 class="section-title">
+            <span class="icon">🔮</span>
+            未来趋势
+        </h2>
+        <p class="section-desc">AI营销的发展方向与技术演进</p>
+        
+        <div class="timeline">
+            <div class="timeline-item active">
+                <div class="timeline-date">2024-2025 · 当前</div>
+                <div class="timeline-title">Agentic AI 兴起</div>
+                <div class="timeline-desc">具备自主决策能力的AI Agent开始承担更复杂的营销任务，如自动制定策略、执行跨渠道活动、实时优化预算分配</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2025-2026 · 近期</div>
+                <div class="timeline-title">多模态营销内容爆发</div>
+                <div class="timeline-desc">AI可统一生成文本、图像、视频、音频内容，实现真正的一站式内容生产，大幅降低创意成本和制作周期</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2026-2027 · 中期</div>
+                <div class="timeline-title">超个性化成为标配</div>
+                <div class="timeline-desc">基于实时情境的"一人一千面"营销成为现实，每位用户看到的内容、优惠、交互方式都完全个性化定制</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2027+ · 远期</div>
+                <div class="timeline-title">AI营销生态成熟</div>
+                <div class="timeline-desc">人机协作模式标准化，AI负责数据分析和执行，人类专注创意和策略，营销行业全面智能化转型完成</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Takeaways -->
+    <section class="section" id="takeaways">
+        <h2 class="section-title">
+            <span class="icon">📝</span>
+            关键结论
+        </h2>
+        <p class="section-desc">把握AI营销时代的核心要点</p>
+        
+        <div class="card">
+            <div class="card-title">🎯 AI是营销效率的倍增器</div>
+            <p class="card-text">已采用AI营销工具的企业平均实现3.5倍ROI提升，营销人员每周节省5+小时重复性工作，可将精力集中在高价值创意和策略工作上。</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">⚡ 数据能力是核心竞争力</div>
+            <p class="card-text">AI营销的效果取决于数据质量和整合能力。建立统一的数据资产、打通数据孤岛是企业实现AI营销价值的前提。</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">🤝 人机协作是未来主流</div>
+            <p class="card-text">AI不会取代营销人员，但会使用AI的营销人员将取代不会使用AI的。最佳实践是AI处理数据和执行，人类负责创意和决策。</p>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">🚀 早期采用者优势明显</div>
+            <p class="card-text">目前仅35%的企业深度应用AI营销，先行者正在建立数据飞轮和算法优势。窗口期正在收窄，现在布局仍有机会。</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-brand">Marketing + AI Report</div>
+        <p>数据截止 2025年1月 | 本报告仅供参考</p>
+        <p style="margin-top: 8px; opacity: 0.6;">© 2025 OpenClaw Insights</p>
+    </footer>
+
+    <!-- Floating Navigation -->
+    <div class="float-nav" id="floatNav">
+        <div class="float-menu">
+            <a href="#overview" data-section="overview">📊 概览</a>
+            <a href="#market" data-section="market">📈 市场</a>
+            <a href="#applications" data-section="applications">🚀 应用</a>
+            <a href="#data" data-section="data">💡 数据</a>
+            <a href="#cases" data-section="cases">🏆 案例</a>
+            <a href="#trends" data-section="trends">🔮 趋势</a>
+            <a href="#takeaways" data-section="takeaways">📝 结论</a>
+            <div class="float-divider"></div>
+            <a href="#overview" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆️ 回到顶部</a>
+        </div>
+        <button class="float-btn" id="floatBtn">☰</button>
+    </div>
+
+    <script>
+        // Toggle floating menu
+        const floatNav = document.getElementById('floatNav');
+        const floatBtn = document.getElementById('floatBtn');
+        floatBtn.addEventListener('click', () => {
+            floatNav.classList.toggle('active');
+            floatBtn.textContent = floatNav.classList.contains('active') ? '✕' : '☰';
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!floatNav.contains(e.target)) {
+                floatNav.classList.remove('active');
+                floatBtn.textContent = '☰';
+            }
+        });
+        
+        // Close menu when clicking a link
+        document.querySelectorAll('.float-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                floatNav.classList.remove('active');
+                floatBtn.textContent = '☰';
+            });
+        });
+        
+        // Highlight current section
+        const sections = document.querySelectorAll('.section, .hero');
+        const navLinks = document.querySelectorAll('.float-menu a[data-section]');
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.dataset.section === id);
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => observer.observe(section));
+        
+        // Chart.js configurations
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+        Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+        
+        // Market Growth Chart
+        const marketCtx = document.getElementById('marketChart').getContext('2d');
+        new Chart(marketCtx, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025E', '2026E', '2027E', '2028E', '2030E'],
+                datasets: [{
+                    label: '市场规模（十亿美元）',
+                    data: [45, 68, 95, 145, 220, 365, 520, 710, 920, 1300],
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99,102,241,0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#6366f1',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+        
+        // Efficiency Comparison Chart
+        const efficiencyCtx = document.getElementById('efficiencyChart').getContext('2d');
+        new Chart(efficiencyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['内容生产效率', '精准投放', '客户洞察', '转化率', 'ROI'],
+                datasets: [{
+                    label: 'AI营销',
+                    data: [85, 78, 92, 88, 82],
+                    backgroundColor: '#6366f1',
+                    borderRadius: 6
+                }, {
+                    label: '传统营销',
+                    data: [45, 52, 48, 55, 50],
+                    backgroundColor: 'rgba(148,163,184,0.5)',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 15, usePointStyle: true }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: 'rgba(255,255,255,0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+        
+        // Investment Distribution Chart
+        const investCtx = document.getElementById('investChart').getContext('2d');
+        new Chart(investCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['内容生成', '广告投放', '客户分析', '对话机器人', '预测建模', '其他'],
+                datasets: [{
+                    data: [28, 24, 18, 15, 10, 5],
+                    backgroundColor: [
+                        '#6366f1',
+                        '#8b5cf6',
+                        '#06b6d4',
+                        '#22c55e',
+                        '#f59e0b',
+                        '#94a3b8'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { 
+                            padding: 15, 
+                            usePointStyle: true,
+                            font: { size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
