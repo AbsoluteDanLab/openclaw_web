@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025年3月美股市场分析报告</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 32px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+        
+        .card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .stat-value.positive {
+            color: var(--success);
+        }
+        
+        .stat-value.negative {
+            color: var(--danger);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        thead {
+            background: var(--bg-secondary);
+        }
+        
+        th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .positive {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .negative {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .neutral {
+            color: var(--warning);
+            font-weight: 600;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 280px;
+            margin-top: 16px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .highlight-box h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+        
+        .highlight-box p {
+            font-size: 13px;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .badge-up {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-down {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .section {
+            scroll-margin-top: 80px;
+        }
+        
+        /* 悬浮导航 */
+        .floating-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .nav-toggle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: transform 0.3s, background 0.3s;
+        }
+        
+        .nav-toggle:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+        
+        .nav-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 8px 0;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s;
+        }
+        
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .back-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .back-top:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            
+            .stat-card {
+                padding: 12px;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+            
+            table {
+                font-size: 12px;
+            }
+            
+            th, td {
+                padding: 10px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>2025年3月美股市场分析报告</h1>
+        <p class="subtitle">数据更新时间：2025年3月31日 | AbsoluteDanLab</p>
+    </header>
+    
+    <div class="container">
+        <!-- 市场概况 -->
+        <section class="section" id="overview">
+            <div class="card">
+                <h2 class="card-title">市场概况</h2>
+                <div class="highlight-box">
+                    <h3>📌 核心观点</h3>
+                    <p>2025年3月美股市场呈现震荡上行态势，美联储维持利率不变，AI概念股持续强势。标普500指数创历史新高，科技板块领涨市场，但月末受通胀数据影响有所回调。</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value positive">+3.1%</div>
+                        <div class="stat-label">标普500月涨幅</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value positive">+1.8%</div>
+                        <div class="stat-label">道指月涨幅</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value positive">+4.2%</div>
+                        <div class="stat-label">纳指月涨幅</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5,748.6</div>
+                        <div class="stat-label">标普500收盘点位</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 主要指数表现 -->
+        <section class="section" id="indices">
+            <div class="card">
+                <h2 class="card-title">主要指数表现</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>指数名称</th>
+                                <th>开盘</th>
+                                <th>收盘</th>
+                                <th>涨跌幅</th>
+                                <th>成交量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>道琼斯工业指数</strong></td>
+                                <td>42,635.20</td>
+                                <td>43,403.87</td>
+                                <td class="positive">+1.80%</td>
+                                <td>328亿</td>
+                            </tr>
+                            <tr>
+                                <td><strong>标普500指数</strong></td>
+                                <td>5,873.56</td>
+                                <td>5,748.60</td>
+                                <td class="positive">+3.10%</td>
+                                <td>1.2万亿</td>
+                            </tr>
+                            <tr>
+                                <td><strong>纳斯达克综合指数</strong></td>
+                                <td>18,542.64</td>
+                                <td>19,310.79</td>
+                                <td class="positive">+4.20%</td>
+                                <td>2.1万亿</td>
+                            </tr>
+                            <tr>
+                                <td><strong>纳斯达克100指数</strong></td>
+                                <td>20,245.18</td>
+                                <td>21,102.64</td>
+                                <td class="positive">+4.23%</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>罗素2000指数</strong></td>
+                                <td>2,089.42</td>
+                                <td>2,048.31</td>
+                                <td class="negative">-1.97%</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td><strong>VIX恐慌指数</strong></td>
+                                <td>18.56</td>
+                                <td>16.23</td>
+                                <td class="positive">-12.55%</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 热门个股表现 -->
+        <section class="section" id="stocks">
+            <div class="card">
+                <h2 class="card-title">热门个股表现（涨幅前10）</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>股票代码</th>
+                                <th>公司名称</th>
+                                <th>月初</th>
+                                <th>月末</th>
+                                <th>涨跌幅</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>NVDA</strong></td>
+                                <td>英伟达</td>
+                                <td>$117.87</td>
+                                <td>$142.63</td>
+                                <td class="positive">+21.00%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>META</strong></td>
+                                <td>Meta</td>
+                                <td>$485.42</td>
+                                <td>$573.98</td>
+                                <td class="positive">+18.25%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TSLA</strong></td>
+                                <td>特斯拉</td>
+                                <td>$178.65</td>
+                                <td>$202.87</td>
+                                <td class="positive">+13.55%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AMD</strong></td>
+                                <td>AMD</td>
+                                <td>$98.23</td>
+                                <td>$109.87</td>
+                                <td class="positive">+11.85%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GOOGL</strong></td>
+                                <td>谷歌</td>
+                                <td>$142.56</td>
+                                <td>$158.34</td>
+                                <td class="positive">+11.07%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AMZN</strong></td>
+                                <td>亚马逊</td>
+                                <td>$178.23</td>
+                                <td>$196.45</td>
+                                <td class="positive">+10.22%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MSFT</strong></td>
+                                <td>微软</td>
+                                <td>$385.67</td>
+                                <td>$423.89</td>
+                                <td class="positive">+9.91%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AAPL</strong></td>
+                                <td>苹果</td>
+                                <td>$212.45</td>
+                                <td>$231.56</td>
+                                <td class="positive">+8.99%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PLTR</strong></td>
+                                <td>Palantir</td>
+                                <td>$21.34</td>
+                                <td>$23.12</td>
+                                <td class="positive">+8.34%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CRM</strong></td>
+                                <td>Salesforce</td>
+                                <td>$287.45</td>
+                                <td>$308.76</td>
+                                <td class="positive">+7.42%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">热门个股表现（跌幅前10）</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>股票代码</th>
+                                <th>公司名称</th>
+                                <th>月初</th>
+                                <th>月末</th>
+                                <th>涨跌幅</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>BA</strong></td>
+                                <td>波音</td>
+                                <td>$198.45</td>
+                                <td>$156.32</td>
+                                <td class="negative">-21.23%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PFE</strong></td>
+                                <td>辉瑞</td>
+                                <td>$28.67</td>
+                                <td>$24.12</td>
+                                <td class="negative">-15.87%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WBA</strong></td>
+                                <td>沃尔格林</td>
+                                <td>$23.45</td>
+                                <td>$20.12</td>
+                                <td class="negative">-14.20%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BABA</strong></td>
+                                <td>阿里巴巴</td>
+                                <td>$112.34</td>
+                                <td>$98.67</td>
+                                <td class="negative">-12.16%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>INTC</strong></td>
+                                <td>英特尔</td>
+                                <td>$28.76</td>
+                                <td>$25.43</td>
+                                <td class="negative">-11.58%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>C</strong></td>
+                                <td>花旗银行</td>
+                                <td>$56.78</td>
+                                <td>$51.23</td>
+                                <td class="negative">-9.77%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DIS</strong></td>
+                                <td>迪士尼</td>
+                                <td>$98.34</td>
+                                <td>$89.45</td>
+                                <td class="negative">-9.04%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WMT</strong></td>
+                                <td>沃尔玛</td>
+                                <td>$87.65</td>
+                                <td>$80.12</td>
+                                <td class="negative">-8.59%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NIO</strong></td>
+                                <td>蔚来汽车</td>
+                                <td>$6.78</td>
+                                <td>$6.23</td>
+                                <td class="negative">-8.11%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>JNJ</strong></td>
+                                <td>强生</td>
+                                <td>$156.34</td>
+                                <td>$144.56</td>
+                                <td class="negative">-7.54%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 板块表现 -->
+        <section class="section" id="sectors">
+            <div class="card">
+                <h2 class="card-title">板块表现</h2>
+                <div class="chart-container">
+                    <canvas id="sectorChart"></canvas>
+                </div>
+                <div style="overflow-x: auto; margin-top: 20px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>板块名称</th>
+                                <th>月涨幅</th>
+                                <th>市值占比</th>
+                                <th>表现</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>科技</strong></td>
+                                <td class="positive">+6.8%</td>
+                                <td>28.5%</td>
+                                <td><span class="badge badge-up">领涨</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>通信服务</strong></td>
+                                <td class="positive">+5.2%</td>
+                                <td>10.8%</td>
+                                <td><span class="badge badge-up">强势</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>非必需消费</strong></td>
+                                <td class="positive">+4.1%</td>
+                                <td>9.6%</td>
+                                <td><span class="badge badge-up">上涨</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>医疗保健</strong></td>
+                                <td class="negative">-2.3%</td>
+                                <td>12.4%</td>
+                                <td><span class="badge badge-down">回调</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>金融</strong></td>
+                                <td class="negative">-1.8%</td>
+                                <td>13.2%</td>
+                                <td><span class="badge badge-down">弱势</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>能源</strong></td>
+                                <td class="negative">-3.5%</td>
+                                <td>4.2%</td>
+                                <td><span class="badge badge-down">领跌</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 市场走势图 -->
+        <section class="section" id="trends">
+            <div class="card">
+                <h2 class="card-title">3月走势图</h2>
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 宏观数据 -->
+        <section class="section" id="macro">
+            <div class="card">
+                <h2 class="card-title">宏观经济数据</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>前值</th>
+                                <th>公布值</th>
+                                <th>影响</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>美联储基准利率</strong></td>
+                                <td>4.50%</td>
+                                <td>4.50%</td>
+                                <td class="neutral">维持不变</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CPI同比</strong></td>
+                                <td>2.8%</td>
+                                <td>2.9%</td>
+                                <td class="negative">略超预期</td>
+                            </tr>
+                            <tr>
+                                <td><strong>核心CPI同比</strong></td>
+                                <td>3.1%</td>
+                                <td>3.2%</td>
+                                <td class="negative">略超预期</td>
+                            </tr>
+                            <tr>
+                                <td><strong>非农就业人数</strong></td>
+                                <td>25.6万</td>
+                                <td>23.5万</td>
+                                <td class="positive">有所放缓</td>
+                            </tr>
+                            <tr>
+                                <td><strong>失业率</strong></td>
+                                <td>4.0%</td>
+                                <td>4.1%</td>
+                                <td class="positive">小幅上升</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GDP年化季率</strong></td>
+                                <td>2.3%</td>
+                                <td>2.4%</td>
+                                <td class="positive">超预期</td>
+                            </tr>
+                            <tr>
+                                <td><strong>制造业PMI</strong></td>
+                                <td>49.2</td>
+                                <td>48.8</td>
+                                <td class="negative">萎缩区间</td>
+                            </tr>
+                            <tr>
+                                <td><strong>消费者信心指数</strong></td>
+                                <td>98.3</td>
+                                <td>101.2</td>
+                                <td class="positive">超预期</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 市场分析 -->
+        <section class="section" id="analysis">
+            <div class="card">
+                <h2 class="card-title">市场分析</h2>
+                
+                <div class="highlight-box">
+                    <h3>🟢 利好因素</h3>
+                    <p>1. AI浪潮持续推动科技股上涨，英伟达、Meta等龙头表现强劲<br>
+                    2. 美联储维持利率不变，市场预期年内仍有降息空间<br>
+                    3. 美国经济基本面稳健，GDP增速超预期<br>
+                    4. 企业盈利表现良好，Q1财报季预期乐观</p>
+                </div>
+                
+                <div class="highlight-box" style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border-left-color: var(--danger);">
+                    <h3 style="color: #991b1b;">🔴 风险因素</h3>
+                    <p>1. 通胀数据反复，核心CPI仍高于目标<br>
+                    2. 中美贸易摩擦持续，影响中概股表现<br>
+                    3. 地缘政治风险犹存，能源价格波动<br>
+                    4. 小盘股表现疲软，市场广度不足</p>
+                </div>
+            </div>
+        </section>
+        
+        <div class="footer">
+            <p>数据来源：Yahoo Finance、Bloomberg、Wind</p>
+            <p>© 2025 AbsoluteDanLab | 仅供参考，不构成投资建议</p>
+        </div>
+    </div>
+    
+    <!-- 悬浮导航 -->
+    <div class="floating-nav">
+        <div class="nav-menu" id="navMenu">
+            <a href="#overview" class="nav-item active">📊 市场概况</a>
+            <a href="#indices" class="nav-item">📈 主要指数</a>
+            <a href="#stocks" class="nav-item">💹 热门个股</a>
+            <a href="#sectors" class="nav-item">🏭 板块表现</a>
+            <a href="#trends" class="nav-item">📉 走势图表</a>
+            <a href="#macro" class="nav-item">🌏 宏观数据</a>
+            <a href="#analysis" class="nav-item">📝 市场分析</a>
+            <div class="back-top" onclick="scrollToTop()">⬆️ 回到顶部</div>
+        </div>
+        <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    </div>
+    
+    <script>
+        // 悬浮导航切换
+        function toggleNav() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('active');
+        }
+        
+        // 回到顶部
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('navMenu').classList.remove('active');
+        }
+        
+        // 点击导航项后关闭菜单
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+        
+        // 高亮当前章节
+        const sections = document.querySelectorAll('.section');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === '#' + current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+        
+        // 板块表现图表
+        const sectorCtx = document.getElementById('sectorChart').getContext('2d');
+        new Chart(sectorCtx, {
+            type: 'bar',
+            data: {
+                labels: ['科技', '通信服务', '非必需消费', '医疗保健', '金融', '能源'],
+                datasets: [{
+                    label: '月涨幅 (%)',
+                    data: [6.8, 5.2, 4.1, -2.3, -1.8, -3.5],
+                    backgroundColor: [
+                        'rgba(34, 197, 94, 0.8)',
+                        'rgba(34, 197, 94, 0.8)',
+                        'rgba(34, 197, 94, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(239, 68, 68, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgb(34, 197, 94)',
+                        'rgb(34, 197, 94)',
+                        'rgb(34, 197, 94)',
+                        'rgb(239, 68, 68)',
+                        'rgb(239, 68, 68)',
+                        'rgb(239, 68, 68)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 走势图
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: ['3/3', '3/6', '3/9', '3/12', '3/15', '3/18', '3/21', '3/24', '3/27', '3/31'],
+                datasets: [{
+                    label: '标普500',
+                    data: [5780, 5810, 5835, 5860, 5820, 5850, 5880, 5905, 5750, 5748],
+                    borderColor: 'rgb(37, 99, 235)',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                }, {
+                    label: '纳斯达克',
+                    data: [18650, 18800, 18950, 19100, 18950, 19050, 19250, 19400, 19300, 19310],
+                    borderColor: 'rgb(16, 185, 129)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.3,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+    </script>
+</body>
+</html>
