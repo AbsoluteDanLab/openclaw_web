@@ -1,0 +1,112 @@
+/* ═══════════════════════════════════════════════════════════
+   Chrome Style Kit — 组件系统 Design Tokens
+   ═══════════════════════════════════════════════════════════ */
+
+/* ===== 按钮系统 ===== */
+.chrome-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: var(--r-full);
+  padding: 12px 28px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.chrome-btn--primary {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+.chrome-btn--primary:hover { background: var(--primary-hover); }
+
+.chrome-btn--secondary {
+  background: var(--n100);
+  color: var(--n900);
+  border: 1px solid var(--n300);
+}
+.chrome-btn--secondary:hover { background: var(--n200); }
+
+.chrome-btn--text {
+  background: transparent;
+  color: var(--primary);
+  padding: 10px 16px;
+}
+.chrome-btn--text:hover { background: var(--primary-light); }
+
+/* ===== 徽章 ===== */
+.chrome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: var(--font-heading);
+}
+
+.chrome-badge--blue { background: rgba(66,133,244,0.1); color: var(--primary); }
+.chrome-badge--green { background: rgba(52,168,83,0.1); color: var(--success); }
+.chrome-badge--yellow { background: rgba(251,188,5,0.15); color: #E37400; }
+.chrome-badge--red { background: rgba(234,67,53,0.1); color: var(--error); }
+.chrome-badge--purple { background: rgba(139,92,246,0.12); color: #7C3AED; }
+
+/* ===== 图标容器 ===== */
+.chrome-icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-full);
+  flex-shrink: 0;
+}
+
+.chrome-icon-circle--blue { background: rgba(66,133,244,0.12); color: var(--primary); }
+.chrome-icon-circle--green { background: rgba(52,168,83,0.12); color: var(--success); }
+.chrome-icon-circle--yellow { background: rgba(251,188,5,0.15); color: #E37400; }
+.chrome-icon-circle--red { background: rgba(234,67,53,0.1); color: var(--error); }
+.chrome-icon-circle--purple { background: rgba(139,92,246,0.12); color: #7C3AED; }
+
+/* ===== 卡片系统（核心：无阴影！）===== */
+.chrome-card {
+  background: #FFFFFF;
+  border-radius: var(--r-xl);
+  padding: 36px;
+  border: 1px solid var(--n200);
+  transition: border-color var(--t-normal);
+}
+.chrome-card:hover { border-color: var(--n300); }
+
+.chrome-card--soft {
+  background: var(--surface-secondary);
+  border-radius: var(--r-xl);
+  padding: 32px;
+  border: 1px solid transparent;
+  transition: border-color var(--t-normal), background var(--t-normal);
+}
+.chrome-card--soft:hover {
+  background: #FFFFFF;
+  border-color: var(--n200);
+}
+
+.chrome-card--dark {
+  background: var(--dark-900);
+  border-radius: var(--r-2xl);
+  padding: 48px;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #FFFFFF;
+}
+
+/* ===== 分隔线 ===== */
+.chrome-divider {
+  height: 1px;
+  background: var(--n200);
+  max-width: 120px;
+}
+.chrome-divider--center { margin: 0 auto; }
