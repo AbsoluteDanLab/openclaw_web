@@ -1,0 +1,59 @@
+/* ═══════════════════════════════════════════════════════════
+   Chrome Style Kit — 间距与圆角 Design Tokens
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* 8pt 栅格间距系统 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* 圆角系统 */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-2xl: 32px;
+  --r-full: 9999px;
+
+  /* 过渡 */
+  --t-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Section Padding */
+.section-padding {
+  padding: 96px 24px;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 56px 16px;
+  }
+}
+
+/* Card Padding */
+.card-padding { padding: 36px; }
+.card-padding--soft { padding: 32px; }
+.card-padding--dark { padding: 48px; }
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.container--narrow {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
