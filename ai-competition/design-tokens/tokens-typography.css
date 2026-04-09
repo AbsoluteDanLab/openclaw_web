@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════════════════════════
+   Chrome Style Kit — 排版系统 Design Tokens
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* 字体栈 */
+  --font-heading: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --font-body: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', Consolas, monospace;
+}
+
+/* 排版层级 */
+.typo-h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--n950);
+}
+
+.typo-h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--n950);
+}
+
+.typo-h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--n900);
+}
+
+.typo-h4 {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--n900);
+}
+
+/* 微标题（Chrome 官网标志性元素） */
+.typo-overline {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--n600);
+}
+
+.typo-body-lg {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--n700);
+}
+
+.typo-body {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--n800);
+}
+
+.typo-caption {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--n600);
+}
+
+.typo-code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
