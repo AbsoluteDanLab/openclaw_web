@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集团AI应用创意大赛方案</title>
+    <link rel="stylesheet" href="./design-tokens/tokens-colors.css">
+    <link rel="stylesheet" href="./design-tokens/tokens-typography.css">
+    <link rel="stylesheet" href="./design-tokens/tokens-spacing.css">
+    <link rel="stylesheet" href="./design-tokens/tokens-components.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: var(--n50); color: var(--n900); line-height: 1.7; }
+        
+        /* Navigation */
+        .nav { position: sticky; top: 0; background: var(--n50); border-bottom: 1px solid var(--n200); padding: var(--space-3) var(--space-6); display: flex; align-items: center; justify-content: space-between; z-index: 100; }
+        .nav-logo { display: flex; align-items: center; gap: var(--space-3); }
+        .nav-logo-icon { width: 24px; height: 24px; color: var(--google-blue); display: flex; align-items: center; justify-content: center; }
+        .nav-logo-icon svg { width: 24px; height: 24px; }
+        .nav-title { font-size: 18px; font-weight: 500; }
+        .nav-links { display: flex; gap: var(--space-4); }
+        .nav-link { color: var(--n700); text-decoration: none; font-size: 14px; padding: var(--space-2) var(--space-3); border-radius: var(--r-sm); transition: background 0.2s; }
+        .nav-link:hover { background: var(--surface-secondary); }
+        
+        /* Hero - 土黄色暖色背景 */
+        .hero { background: #FCE397; padding: 80px 24px; text-align: center; }
+        .hero-badge { display: inline-flex; align-items: center; gap: var(--space-2); background: var(--google-blue); color: white; padding: var(--space-2) var(--space-4); border-radius: var(--r-full); font-size: 13px; font-weight: 500; margin-bottom: var(--space-6); }
+        .hero-badge svg { width: 16px; height: 16px; }
+        .hero h1 { font-size: 48px; font-weight: 700; color: var(--n950); margin-bottom: var(--space-1); letter-spacing: -1px; }
+        .hero-en-title { font-size: 18px; font-weight: 400; color: black; margin-bottom: var(--space-8); }
+        .hero-subtitle { font-size: 18px; color: black; max-width: 800px; margin: 0 auto var(--space-10); line-height: 1.8; }
+        .hero-actions { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); border-radius: var(--r-full); font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
+        .btn svg { width: 18px; height: 18px; }
+        .btn-primary { background: black; color: white; }
+        .btn-primary:hover { background: #333; }
+        .btn-secondary { background: transparent; color: black; border: 1px solid black; }
+        .btn-secondary:hover { background: rgba(0,0,0,0.05); }
+        
+        /* Main Content */
+        .main { max-width: 1000px; margin: 0 auto; padding: var(--space-12) var(--space-6); }
+        .section { margin-bottom: var(--space-16); }
+        .section-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6); }
+        .section-number { width: 36px; height: 36px; background: var(--n500); color: white; border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 14px; flex-shrink: 0; }
+        .section-title { font-size: 28px; font-weight: 400; color: var(--n950); }
+        .section-desc { font-size: 16px; color: var(--n700); margin-bottom: var(--space-6); padding-left: calc(36px + var(--space-3)); }
+        
+        /* Section Background Variants */
+        .section-bg-blue { background: var(--surface-blue); border-radius: var(--r-xl); padding: var(--space-8); margin-bottom: var(--space-16); }
+        .section-bg-green { background: var(--surface-green); border-radius: var(--r-xl); padding: var(--space-8); margin-bottom: var(--space-16); }
+        .section-bg-yellow { background: var(--surface-yellow); border-radius: var(--r-xl); padding: var(--space-8); margin-bottom: var(--space-16); }
+        .section-bg-red { background: var(--surface-red); border-radius: var(--r-xl); padding: var(--space-8); margin-bottom: var(--space-16); }
+        .section-bg-purple { background: var(--surface-purple); border-radius: var(--r-xl); padding: var(--space-8); margin-bottom: var(--space-16); }
+        
+        /* Cards Grid */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4); }
+        .cards-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+        
+        /* Info Card */
+        .info-card { background: transparent; border: 1px solid transparent; border-radius: var(--r-lg); padding: var(--space-5); transition: transform 0.2s; }
+        .info-card:hover { transform: translateY(-2px); }
+        .info-card-icon { width: 48px; height: 48px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-4); background: white; }
+        .info-card-icon svg { width: 24px; height: 24px; }
+        .info-card-icon.blue { color: var(--google-blue); }
+        .info-card-icon.red { color: var(--google-red); }
+        .info-card-icon.yellow { color: var(--google-yellow); }
+        .info-card-icon.green { color: var(--google-green); }
+        .info-card-icon.purple { color: #9333EA; }
+        .info-card h3 { font-size: 18px; font-weight: 500; color: var(--n900); margin-bottom: var(--space-2); }
+        .info-card p { font-size: 14px; color: var(--n700); line-height: 1.6; }
+        
+        /* List Card - 去掉白色背景 */
+        .list-card { background: transparent; border-radius: var(--r-lg); padding: var(--space-6); }
+        .list-card-header { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4); }
+        .list-card-header svg { width: 20px; height: 20px; color: var(--google-blue); }
+        .list-card h3 { font-size: 18px; font-weight: 500; color: var(--n900); }
+        .list-card ul { list-style: none; }
+        .list-card li { padding: var(--space-3) 0; font-size: 15px; color: var(--n800); display: flex; align-items: flex-start; gap: var(--space-3); }
+        .list-card li svg { width: 18px; height: 18px; color: var(--google-green); flex-shrink: 0; margin-top: 2px; }
+        
+        /* Highlight Box - 去掉白色背景 */
+        .highlight-box { background: transparent; border-radius: var(--r-lg); padding: var(--space-5); margin: var(--space-6) 0; }
+        .highlight-box p { font-size: 15px; color: var(--n800); }
+        .highlight-box strong { color: var(--google-blue); }
+        
+        /* Steps - 2x2 网格布局 */
+        .steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
+        .step { display: flex; gap: var(--space-4); background: var(--n50); border: 1px solid var(--n200); border-radius: var(--r-lg); padding: var(--space-5); }
+        .step-number { width: 32px; height: 32px; background: var(--google-green); color: white; border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 14px; flex-shrink: 0; }
+        .step-content h4 { font-size: 16px; font-weight: 500; color: var(--n900); margin-bottom: var(--space-2); }
+        .step-content p { font-size: 14px; color: var(--n700); }
+        .step-content ul { list-style: none; margin-top: var(--space-2); }
+        .step-content li { font-size: 14px; color: var(--n700); padding: var(--space-1) 0; padding-left: var(--space-4); position: relative; }
+        .step-content li::before { content: ""; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; background: var(--google-blue); border-radius: 50%; }
+        
+        /* Tool Item */
+        .tool-item { background: transparent; border: 1px solid var(--n200); border-radius: var(--r-lg); padding: var(--space-4); text-align: center; transition: border-color 0.2s; }
+        .tool-item:hover { border-color: var(--google-blue); }
+        .tool-item-icon { width: 40px; height: 40px; background: white; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); }
+        .tool-item-icon svg { width: 20px; height: 20px; color: var(--google-blue); }
+        .tool-item-name { font-size: 14px; font-weight: 500; color: var(--n900); }
+        
+        /* Awards Grid - 四列布局 */
+        .awards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+        .award-card { background: transparent; border: none; border-radius: var(--r-lg); padding: var(--space-5); text-align: center; }
+        .award-card-icon { width: 48px; height: 48px; background: white; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); }
+        .award-card-icon svg { width: 24px; height: 24px; color: var(--google-yellow); }
+        .award-card h4 { font-size: 16px; font-weight: 500; color: var(--n900); }
+        
+        /* CTA Section */
+        .cta-section { background: var(--n950); border-radius: var(--r-xl); padding: var(--space-12) var(--space-8); text-align: center; margin-top: var(--space-16); }
+        .cta-section h2 { font-size: 32px; font-weight: 400; color: white; margin-bottom: var(--space-4); }
+        .cta-section > p { font-size: 16px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto var(--space-8); }
+        .cta-question { background: rgba(255,255,255,0.1); border-radius: var(--r-lg); padding: var(--space-6); max-width: 500px; margin: 0 auto; }
+        .cta-question p { color: white; font-size: 18px; margin-bottom: var(--space-4); }
+        .cta-question .answer { color: var(--google-yellow); font-size: 20px; font-weight: 500; }
+        
+        /* Footer */
+        .footer { text-align: center; padding: var(--space-8) var(--space-6); border-top: 1px solid var(--n200); color: var(--n600); font-size: 13px; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .nav-links { display: none; }
+            .section-title { font-size: 22px; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-logo">
+            <div class="nav-logo-icon"><i data-lucide="sparkles"></i></div>
+            <span class="nav-title">集团AI应用创意大赛</span>
+        </div>
+        <div class="nav-links">
+            <a href="#background" class="nav-link">活动背景</a>
+            <a href="#goals" class="nav-link">活动目标</a>
+            <a href="#participate" class="nav-link">参与方式</a>
+            <a href="#tools" class="nav-link">推荐工具</a>
+            <a href="#awards" class="nav-link">奖励机制</a>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <h1>集团AI应用创意大赛</h1>
+        <p class="hero-en-title">AI always stands with Human.</p>
+        <p class="hero-subtitle">本方案旨在通过组织集团级AI应用创意大赛，激发各业务单元员工主动探索AI在实际工作中的应用，推动AI从认知走向实践。活动以真实业务场景为切入点，鼓励员工围绕日常工作中的效率痛点，利用AI工具进行优化与创新。</p>
+        <div class="hero-actions">
+            <a href="#participate" class="btn btn-primary"><i data-lucide="play"></i>立即参与</a>
+            <a href="#tools" class="btn btn-secondary"><i data-lucide="wrench"></i>了解工具</a>
+        </div>
+    </section>
+    
+    <main class="main">
+        <!-- 一、活动背景 - 蓝色背景 -->
+        <section class="section-bg-blue" id="background">
+            <div class="section-header"><div class="section-number">一</div><h2 class="section-title">活动背景</h2></div>
+            <p class="section-desc">随着AI技术的发展，越来越多的AI工具已经可以在日常工作中发挥作用</p>
+            <div class="cards-grid-4">
+                <div class="info-card"><div class="info-card-icon blue"><i data-lucide="file-text"></i></div><h3>自动生成报告</h3><p>AI可以快速生成各类业务报告，节省大量撰写时间</p></div>
+                <div class="info-card"><div class="info-card-icon green"><i data-lucide="bar-chart-3"></i></div><h3>数据分析辅助</h3><p>利用AI进行数据洞察和分析，发现业务机会</p></div>
+                <div class="info-card"><div class="info-card-icon yellow"><i data-lucide="pen-line"></i></div><h3>文案与内容生成</h3><p>快速生成营销文案、邮件、公告等各类内容</p></div>
+                <div class="info-card"><div class="info-card-icon red"><i data-lucide="clipboard-list"></i></div><h3>会议纪要整理</h3><p>自动整理会议内容，提取关键信息和待办事项</p></div>
+            </div>
+            <div class="highlight-box" style="margin-top: var(--space-6);"><p>但在当前阶段，集团内部仍有大量同事处于<strong>观望状态</strong>——不清楚AI能做什么，不知道如何结合自己的工作使用。为此，集团发起本次<strong>AI应用创意大赛</strong>。</p></div>
+        </section>
+        
+        <!-- 二、活动目标 - 绿色背景 -->
+        <section class="section-bg-green" id="goals">
+            <div class="section-header"><div class="section-number">二</div><h2 class="section-title">活动目标</h2></div>
+            <p class="section-desc">本次活动的核心目标不是"比赛本身"，而是推动实际应用</p>
+            <div class="cards-grid">
+                <div class="info-card"><div class="info-card-icon blue"><i data-lucide="lightbulb"></i></div><h3>激发AI使用氛围</h3><p>让更多同事开始主动尝试AI工具，形成全员参与的氛围</p></div>
+                <div class="info-card"><div class="info-card-icon green"><i data-lucide="link"></i></div><h3>连接真实工作场景</h3><p>从日常工作中发现可以用AI优化的环节，解决实际问题</p></div>
+                <div class="info-card"><div class="info-card-icon yellow"><i data-lucide="zap"></i></div><h3>帮助员工提升效率</h3><p>减少重复劳动，提高工作质量与效率，释放创造力</p></div>
+            </div>
+        </section>
+        
+        <!-- 三、参与方式 - 黄色背景 -->
+        <section class="section-bg-yellow" id="participate">
+            <div class="section-header"><div class="section-number">三</div><h2 class="section-title">参与方式</h2></div>
+            <div class="cards-grid" style="margin-bottom: var(--space-6);">
+                <div class="list-card">
+                    <div class="list-card-header"><i data-lucide="users"></i><h3>参与对象</h3></div>
+                    <ul><li><i data-lucide="check"></i>集团各BU及职能部门员工均可参与</li><li><i data-lucide="check"></i>支持个人报名</li><li><i data-lucide="check"></i>支持团队报名（2-5人）</li><li><i data-lucide="check"></i>建议围绕同一个业务场景组队参与</li></ul>
+                </div>
+                <div class="list-card">
+                    <div class="list-card-header"><i data-lucide="target"></i><h3>一句话参与方式</h3></div>
+                    <p style="font-size: 16px; color: var(--google-blue); font-weight: 500; margin-top: var(--space-2);">找到你工作中一个重复、耗时、低效的环节，用AI把它优化掉。</p>
+                    <p style="font-size: 14px; color: var(--n700); margin-top: var(--space-2);">只要做到这一点，就可以作为参赛作品。</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="section-header"><div class="section-number">四</div><h2 class="section-title">可以做什么</h2></div>
+            <p class="section-desc">本次活动不限定形式，只要对工作有帮助，都可以参与</p>
+            <div class="cards-grid-4" style="margin-bottom: var(--space-6);">
+                <div class="info-card"><div class="info-card-icon blue"><i data-lucide="wrench"></i></div><h3>一个AI小工具</h3><p>构建一个能解决具体问题的AI工具</p></div>
+                <div class="info-card"><div class="info-card-icon green"><i data-lucide="bot"></i></div><h3>一个AI助手（Agent）</h3><p>创建智能助手帮助完成特定任务</p></div>
+                <div class="info-card"><div class="info-card-icon yellow"><i data-lucide="settings"></i></div><h3>一个AI自动化流程</h3><p>设计自动化工作流提升效率</p></div>
+                <div class="info-card"><div class="info-card-icon red"><i data-lucide="file-code"></i></div><h3>AI方法（Prompt/SKILL）</h3><p>总结一套好用的提示词或技能</p></div>
+            </div>
+            <div class="list-card">
+                <div class="list-card-header"><i data-lucide="lightbulb"></i><h3>示例（用于启发）</h3></div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-3); margin-top: var(--space-4);">
+                    <div class="tool-item"><div class="tool-item-icon"><i data-lucide="file-text"></i></div><div class="tool-item-name">用AI自动生成周报</div></div>
+                    <div class="tool-item"><div class="tool-item-icon"><i data-lucide="store"></i></div><div class="tool-item-name">用AI做门店经营分析</div></div>
+                    <div class="tool-item"><div class="tool-item-icon"><i data-lucide="megaphone"></i></div><div class="tool-item-name">用AI生成营销文案</div></div>
+                    <div class="tool-item"><div class="tool-item-icon"><i data-lucide="clipboard-list"></i></div><div class="tool-item-name">用AI整理会议纪要</div></div>
+                    <div class="tool-item"><div class="tool-item-icon"><i data-lucide="table"></i></div><div class="tool-item-name">用AI分析Excel数据</div></div>
+                    <div class="tool-item"><div class="tool-item-icon"><i data-lucide="map-pin"></i></div><div class="tool-item-name">用AI做选址辅助分析</div></div>
+                    <div class="tool-item"><div class="tool-item-icon"><i data-lucide="message-circle"></i></div><div class="tool-item-name">门店Q&A智能问答</div></div>
+                    <div class="tool-item"><div class="tool-item-icon"><i data-lucide="target"></i></div><div class="tool-item-name">数据分析提示词集</div></div>
+                </div>
+            </div>
+            <div class="highlight-box"><p><strong>不要求复杂，关键是"能用、好用、有帮助"。</strong></p></div>
+        </section>
+        
+        <!-- 五、推荐工具 - 紫色背景 -->
+        <section class="section-bg-purple" id="tools">
+            <div class="section-header"><div class="section-number">五</div><h2 class="section-title">推荐工具</h2></div>
+            <p class="section-desc">本次活动不限制工具平台，可自由选择</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6);">
+                <div class="list-card">
+                    <div class="list-card-header"><i data-lucide="bot"></i><h3>AI应用开发工具</h3></div>
+                    <ul><li><i data-lucide="check"></i><strong>Coze</strong> — Agent / 工作流 / 自然语言编程 / 低代码应用</li><li><i data-lucide="check"></i><strong>WorkBuddy / OpenClaw</strong> — 龙虾产品，可处理本地文件、多Agent协作</li><li><i data-lucide="check"></i><strong>飞书AI</strong> — 多维表、机器人、Aily、秒搭</li><li><i data-lucide="check"></i><strong>企业微信</strong> — 智能表、机器人</li></ul>
+                </div>
+                <div class="list-card">
+                    <div class="list-card-header"><i data-lucide="brain"></i><h3>AI对话工具</h3></div>
+                    <ul><li><i data-lucide="check"></i><strong>千问</strong> — 阿里云大模型</li><li><i data-lucide="check"></i><strong>Kimi</strong> — 长文本处理专家</li><li><i data-lucide="check"></i><strong>豆包</strong> — 字节跳动AI助手</li><li><i data-lucide="check"></i><strong>ChatGPT</strong> — OpenAI对话模型</li></ul>
+                </div>
+                <div class="list-card">
+                    <div class="list-card-header"><i data-lucide="code"></i><h3>其他工具</h3></div>
+                    <ul><li><i data-lucide="check"></i><strong>Python</strong> — 自动化脚本</li><li><i data-lucide="check"></i><strong>RPA工具</strong> — 流程自动化</li><li><i data-lucide="check"></i><strong>Excel + AI</strong> — 数据处理增强</li></ul>
+                </div>
+            </div>
+            <div class="highlight-box"><p><strong>原则：</strong>优先选择简单、容易上手、大部分人可接触的工具</p></div>
+        </section>
+        
+        <section class="section">
+            <div class="section-header"><div class="section-number">六</div><h2 class="section-title">作品提交要求</h2></div>
+            <p class="section-desc">已简化、强引导，不需要复杂材料，清楚说明即可</p>
+            <div class="steps">
+                <div class="step"><div class="step-number">1</div><div class="step-content"><h4>你解决了什么问题</h4><p>请说明：</p><ul><li>你的工作场景是什么</li><li>原来哪里低效 / 花时间</li></ul></div></div>
+                <div class="step"><div class="step-number">2</div><div class="step-content"><h4>你是怎么用AI解决的</h4><p>请说明：</p><ul><li>用了什么AI工具</li><li>大致是怎么做的</li></ul></div></div>
+                <div class="step"><div class="step-number">3</div><div class="step-content"><h4>展示你的成果</h4><p>可以用：</p><ul><li>截图 / Demo / 简单视频 / 使用前后对比</li></ul></div></div>
+                <div class="step"><div class="step-number">4</div><div class="step-content"><h4>效果如何</h4><p>简单说明：</p><ul><li>是否更快了 / 更轻松了 / 更规范了</li></ul></div></div>
+            </div>
+        </section>
+        
+        <!-- 七、活动支持 - 绿色背景 -->
+        <section class="section-bg-green">
+            <div class="section-header"><div class="section-number">七</div><h2 class="section-title">活动支持</h2></div>
+            <p class="section-desc">为了降低门槛，本次活动将提供以下支持</p>
+            <div class="cards-grid-4">
+                <div class="info-card"><div class="info-card-icon blue"><i data-lucide="book-open"></i></div><h3>AI工具入门培训</h3><p>活动启动阶段组织培训：常见AI工具介绍、如何做一个简单AI应用、如何写基础提示词、如何编写SKILL技能</p></div>
+                <div class="info-card"><div class="info-card-icon green"><i data-lucide="compass"></i></div><h3>AI应用场景参考</h3><p>提供典型场景供参考：门店运营、营销分析、数据处理、供应链、人力资源、财务</p></div>
+                <div class="info-card"><div class="info-card-icon yellow"><i data-lucide="file"></i></div><h3>提交模板</h3><p>提供简单模板，帮助大家快速整理作品</p></div>
+                <div class="info-card"><div class="info-card-icon red"><i data-lucide="users"></i></div><h3>BU数科团队支持</h3><p>工具使用建议、应用思路建议、技术答疑</p></div>
+            </div>
+            <div class="highlight-box"><p><strong>原则：</strong>业务主导，数科支持，不代做</p></div>
+        </section>
+        
+        <section class="section">
+            <div class="section-header"><div class="section-number">八</div><h2 class="section-title">评审机制</h2></div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6); margin-bottom: var(--space-6);">
+                <div class="list-card">
+                    <div class="list-card-header"><i data-lucide="clipboard-check"></i><h3>初评阶段</h3></div>
+                    <ul><li><i data-lucide="check"></i>数科团队</li><li><i data-lucide="check"></i>各BU相关负责人</li><li><i data-lucide="check"></i>筛选出优秀作品</li></ul>
+                </div>
+                <div class="list-card">
+                    <div class="list-card-header"><i data-lucide="trophy"></i><h3>终评阶段</h3></div>
+                    <ul><li><i data-lucide="check"></i>集团管理层</li><li><i data-lucide="check"></i>业务负责人</li><li><i data-lucide="check"></i>董事长参与</li><li><i data-lucide="check"></i>评选最终优秀案例</li></ul>
+                </div>
+            </div>
+            <div class="list-card">
+                <div class="list-card-header"><i data-lucide="bar-chart-3"></i><h3>评审标准</h3></div>
+                <ul>
+                    <li><i data-lucide="check"></i><strong>真实场景</strong> — 是否来自真实工作场景，是不是日常工作中的真实问题</li>
+                    <li><i data-lucide="check"></i><strong>实际帮助</strong> — 是否确实提升效率或减少工作量</li>
+                    <li><i data-lucide="check"></i><strong>简单可用</strong> — 是否容易理解、容易上手，而不是复杂但难用</li>
+                    <li><i data-lucide="check"></i><strong>创意思考</strong> — 是否体现出对AI的合理使用和思考</li>
+                    <li><i data-lucide="check"></i><strong>可推广性</strong> — 是否可以在类似场景推广，让更多人使用</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 九、奖励机制 - 黄色背景 -->
+        <section class="section-bg-yellow" id="awards">
+            <div class="section-header"><div class="section-number">九</div><h2 class="section-title">奖励机制</h2></div>
+            <div class="awards-grid" style="margin-bottom: var(--space-6);">
+                <div class="award-card"><div class="award-card-icon"><i data-lucide="trophy"></i></div><h4>优秀AI应用奖</h4></div>
+                <div class="award-card"><div class="award-card-icon"><i data-lucide="lightbulb"></i></div><h4>AI创意奖</h4></div>
+                <div class="award-card"><div class="award-card-icon"><i data-lucide="zap"></i></div><h4>AI效率提升奖</h4></div>
+                <div class="award-card"><div class="award-card-icon"><i data-lucide="star"></i></div><h4>优秀实践奖</h4></div>
+            </div>
+            <div class="list-card">
+                <div class="list-card-header"><i data-lucide="gift"></i><h3>奖励形式</h3></div>
+                <ul><li><i data-lucide="check"></i>奖金 / 奖品</li><li><i data-lucide="check"></i>集团表彰</li></ul>
+                <p style="font-size: 13px; color: var(--n700); margin-top: var(--space-3);">* 根据判定的不同类别，奖励有所差异。譬如工具类门槛高，对应奖励高；提示词门槛低，对应奖励适当调整。</p>
+            </div>
+        </section>
+        
+<!-- 十、思考引导 - 品牌蓝色贯通式背景 -->
+        <section style="background: var(--google-blue); border-radius: var(--r-xl); padding: var(--space-10) var(--space-8); margin-bottom: var(--space-16);">
+            <div class="section-header" style="margin-bottom: var(--space-8);"><div class="section-number" style="background: white; color: var(--n500);">十</div><h2 class="section-title" style="color: white;">思考引导</h2></div>
+            <div style="display: flex; gap: var(--space-12); align-items: stretch; max-width: 800px; margin: 0 auto;">
+                <div style="flex: 1;">
+                    <h3 style="font-size: 24px; font-weight: 400; color: white; margin-bottom: var(--space-4);">我能不能报名？</h3>
+                    <p style="font-size: 15px; color: rgba(255,255,255,0.9); margin-bottom: var(--space-6);">如果你不知道做什么，想一想你工作中：</p>
+                    <div style="margin: var(--space-4) 0;">
+                        <p style="padding: var(--space-2) 0; color: rgba(255,255,255,0.95); font-size: 16px;">• 最重复的一件事</p>
+                        <p style="padding: var(--space-2) 0; color: rgba(255,255,255,0.95); font-size: 16px;">• 最花时间的一件事</p>
+                        <p style="padding: var(--space-2) 0; color: rgba(255,255,255,0.95); font-size: 16px;">• 最容易出错的一件事</p>
+                    </div>
+                </div>
+                <div style="flex: 1; text-align: center; padding: var(--space-6); background: rgba(255,255,255,0.1); border-radius: var(--r-lg); display: flex; flex-direction: column; justify-content: center;">
+                    <p style="color: rgba(255,255,255,0.8); font-size: 16px; margin-bottom: var(--space-4);">然后问自己：</p>
+                    <p style="color: white; font-size: 22px; font-weight: 600; margin-bottom: var(--space-4);">能不能用AI把它变简单一点？</p>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 15px;">这，就是一个参赛作品。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>集团AI应用创意大赛</p>
+    </footer>
+    
+    <script>lucide.createIcons();</script>
+</body>
+</html>
