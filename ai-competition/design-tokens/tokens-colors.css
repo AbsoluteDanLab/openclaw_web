@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════════════════
+   Chrome Style Kit — 颜色系统 Design Tokens
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* Google 品牌四色（保留用于特定场景） */
+  --google-blue: #4285F4;
+  --google-red: #EA4335;
+  --google-yellow: #FBBC05;
+  --google-green: #34A853;
+
+  /* 主色 & 交互色 */
+  --primary: #1A73E8;
+  --primary-hover: #1557B0;
+  --primary-light: #E8F0FE;
+
+  /* 语义色 */
+  --success: #34A853;
+  --success-light: #E6F4EA;
+  --warning: #FBBC05;
+  --warning-light: #FEF7E0;
+  --error: #EA4335;
+  --error-light: #FCE8E6;
+
+  /* 中性色阶（Chrome 特有，非通用 gray） */
+  --n50: #FFFFFF;
+  --n100: #F8F9FA;
+  --n200: #F1F3F4;
+  --n300: #E8EAED;
+  --n400: #DADCE0;
+  --n500: #BDC1C6;
+  --n600: #9AA0A6;
+  --n700: #80868B;
+  --n800: #5F6368;
+  --n900: #3C4043;
+  --n950: #202124;
+
+  /* 深色色阶 */
+  --dark-900: #202124;
+  --dark-950: #101214;
+
+  /* Surface 色块背景（核心特征：无阴影，纯色区分） */
+  --surface-primary: #FFFFFF;
+  --surface-secondary: #F8F9FA;
+  --surface-tertiary: #F1F3F4;
+  --surface-blue: #E8F0FE;
+  --surface-green: #E6F4EA;
+  --surface-yellow: #FEF7E0;
+  --surface-red: #FCE8E6;
+  --surface-purple: #F3E8FF;
+  --surface-yellow-warm: #F5E6D3;
+}
