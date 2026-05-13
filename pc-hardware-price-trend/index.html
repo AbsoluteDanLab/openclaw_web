@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="电脑硬件价格趋势分析报告 - 2025年11月至2026年5月">
+    <title>电脑硬件价格趋势分析 | 2025-2026</title>
+    
+    <!-- Chart.js CDN - bootcdn.net -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    
+    <style>
+        /* CSS Reset & Mobile-First Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #0891b2;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            line-height: 1.6;
+            color: var(--gray-800);
+            background-color: var(--gray-50);
+            padding-bottom: 80px; /* 底部留白80px避免遮挡 */
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title .icon {
+            font-size: 1.5rem;
+        }
+
+        /* Collapsible Sections */
+        .collapsible {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .collapsible-content.active {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .collapse-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .collapse-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Executive Summary */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-box {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-700);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .stat-change.positive {
+            color: var(--danger-color);
+        }
+
+        .stat-change.negative {
+            color: var(--success-color);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 1rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-200);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.65rem;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .timeline-item.high-impact::before {
+            background: var(--danger-color);
+        }
+
+        .timeline-item.medium-impact::before {
+            background: var(--warning-color);
+        }
+
+        .timeline-date {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-event {
+            font-size: 1rem;
+            color: var(--gray-800);
+        }
+
+        .timeline-impact {
+            display: inline-block;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .timeline-impact.high {
+            background: #fee2e2;
+            color: var(--danger-color);
+        }
+
+        .timeline-impact.medium {
+            background: #fef3c7;
+            color: var(--warning-color);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            margin: 1rem 0;
+            height: 300px;
+            width: 100%;
+        }
+
+        .chart-container canvas {
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--gray-50);
+        }
+
+        /* Responsive Table Wrapper */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 1rem -1.25rem;
+            padding: 0 1.25rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            touch-action: manipulation;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:active {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Legend */
+        .chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            transition: background 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: var(--gray-100);
+        }
+
+        .legend-color {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 0.25rem;
+        }
+
+        /* Insights */
+        .insight-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-text {
+            color: var(--gray-700);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--gray-200);
+            margin-top: 2rem;
+        }
+
+        /* Floating Navigation */
+        .floating-nav {
+            position: fixed;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem;
+            z-index: 1000;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .floating-nav:hover {
+            opacity: 1;
+        }
+
+        .floating-nav.expanded {
+            opacity: 1;
+        }
+
+        .nav-toggle {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--gray-700);
+        }
+
+        .nav-list {
+            display: none;
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .floating-nav.expanded .nav-list {
+            display: block;
+        }
+
+        .nav-list li {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-list a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            font-size: 0.875rem;
+            border-radius: 0.25rem;
+            transition: background 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-list a:hover,
+        .nav-list a.active {
+            background: var(--gray-100);
+            color: var(--primary-color);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Responsive Breakpoints */
+        @media (min-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-container {
+                height: 400px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .summary-stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .chart-container {
+                height: 500px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header {
+                position: relative;
+            }
+
+            .collapsible-content {
+                max-height: none !important;
+            }
+
+            .floating-nav,
+            .back-to-top,
+            .btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Navigation (for 3+ sections) -->
+    <nav class="floating-nav" id="floating-nav">
+        <button class="nav-toggle" onclick="toggleNav()">☰</button>
+        <ul class="nav-list" id="nav-list">
+            <li><a href="#summary-section" class="active">执行摘要</a></li>
+            <li><a href="#chart-section">价格趋势</a></li>
+            <li><a href="#timeline-section">关键事件</a></li>
+            <li><a href="#data-section">详细数据</a></li>
+            <li><a href="#retail-section">零售影响</a></li>
+            <li><a href="#conclusion-section">结论建议</a></li>
+        </ul>
+    </nav>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top" onclick="scrollToTop()">↑</div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>📊 电脑硬件价格趋势分析报告</h1>
+        <p class="subtitle">2025年11月 - 2026年5月 | AI驱动的超级周期</p>
+    </header>
+
+    <div class="container">
+        <!-- Executive Summary -->
+        <section class="card" id="summary-section">
+            <h2 class="card-title collapsible" onclick="toggleSection('summary-content')">
+                <span class="icon">📋</span>
+                执行摘要
+                <span class="collapse-icon" id="summary-icon">▼</span>
+            </h2>
+            <div class="collapsible-content active" id="summary-content">
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    2025年底至2026年上半年，全球存储器件市场经历由AI需求爆发驱动的"超级周期"。DRAM价格同比涨幅达171.8%，NAND闪存合约价累计涨幅超240%，导致笔记本电脑整机价格上涨15%-40%，中国笔记本线上零售销量同比暴跌40.5%。
+                </p>
+                
+                <div class="summary-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">DRAM价格同比涨幅</div>
+                        <div class="stat-value">+171.8%</div>
+                        <div class="stat-change positive">历史性涨幅</div>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <div class="stat-label">NAND合约价累计涨幅</div>
+                        <div class="stat-value">+240%</div>
+                        <div class="stat-change positive">持续上涨</div>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <div class="stat-label">笔记本均价涨幅</div>
+                        <div class="stat-value">+21.3%</div>
+                        <div class="stat-change positive">高于黄金涨幅</div>
+                    </div>
+                    
+                    <div class="stat-box">
+                        <div class="stat-label">笔记本销量跌幅</div>
+                        <div class="stat-value">-40.5%</div>
+                        <div class="stat-change negative">需求萎缩</div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">💡 核心发现</div>
+                    <div class="insight-text">
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>AI服务器需求是核心驱动力，导致存储芯片产能向企业级/HBM倾斜</li>
+                            <li>DRAM价格涨幅创历史记录，部分DDR4产品涨幅高达440-700%</li>
+                            <li>零售端价格传导存在2-3个月滞后期，2026年1-4月集中涨价</li>
+                            <li>中国笔记本线上零售销量同比暴跌40.5%，"等等党"心态蔓延</li>
+                            <li>美光退出Crucial消费业务，标志着消费级存储市场结构性变化</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Price Trend Chart -->
+        <section class="card" id="chart-section">
+            <h2 class="card-title collapsible" onclick="toggleSection('chart-content')">
+                <span class="icon">📈</span>
+                硬件价格趋势分析
+                <span class="collapse-icon" id="chart-icon">▼</span>
+            </h2>
+            <div class="collapsible-content active" id="chart-content">
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    以下图表展示了主要存储器件的价格指数变化趋势。所有指数以2025年11月为基线（100）。
+                </p>
+
+                <div class="chart-container">
+                    <canvas id="priceTrendChart"></canvas>
+                </div>
+
+                <div class="chart-legend" id="chart-legend-1"></div>
+
+                <div class="insight-box" style="margin-top: 1.5rem;">
+                    <div class="insight-title">📊 趋势分析</div>
+                    <div class="insight-text">
+                        <p><strong>硬件价格趋势：</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><strong>DRAM：</strong>价格呈加速上涨趋势，2025年Q3同比涨幅达171.8%，DDR4 8Gb芯片价格从$1.83涨至$9.87（涨幅440%）</li>
+                            <li><strong>NAND：</strong>合约价累计涨幅超240%，其中约70%涨幅集中在过去60天内完成</li>
+                            <li><strong>SSD：</strong>消费级SSD价格上涨10-25%，企业级SSD涨幅超20%</li>
+                            <li><strong>HDD：</strong>2025年Q4价格环比上涨约4%，创下过去八个季度以来最大涨幅</li>
+                        </ul>
+                        
+                        <p style="margin-top: 1rem;"><strong>关键转折点：</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>2025年5月：DRAM价格开始加速上涨</li>
+                            <li>2025年9月：美光暂停报价后恢复，涨价约20%</li>
+                            <li>2025年12月：联想、戴尔、惠普宣布PC涨价15-20%</li>
+                            <li>2026年5月：64Gb MLC NAND现货价格暴涨超300%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Events Timeline -->
+        <section class="card" id="timeline-section">
+            <h2 class="card-title collapsible" onclick="toggleSection('timeline-content')">
+                <span class="icon">🕐</span>
+                关键事件时间线
+                <span class="collapse-icon" id="timeline-icon">▼</span>
+            </h2>
+            <div class="collapsible-content active" id="timeline-content">
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    以下时间线标记了影响价格走势的关键市场事件和供应动态（按时间倒序排列，最新事件在前）。
+                </p>
+
+                <div class="timeline">
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2026年5月13日</div>
+                        <div class="timeline-event">64Gb MLC NAND现货价格暴涨超300%，三星调整2D NAND产能转向DRAM</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2026年4月</div>
+                        <div class="timeline-event">TrendForce预测2026年Q2 DRAM价格将跳涨63%，NAND涨价75%</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item medium-impact">
+                        <div class="timeline-date">2026年3-4月</div>
+                        <div class="timeline-event">中国内存芯片厂商产能快速扩张，CXMT营收达80亿美元（同比+130%）</div>
+                        <span class="timeline-impact medium">中等影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2026年2月底</div>
+                        <div class="timeline-event">美光正式停止Crucial消费级SSD和DRAM销售，退出消费业务</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2026年2月</div>
+                        <div class="timeline-event">DRAM价格Q1预计跳涨95%，NAND晶圆成本激增25%</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2026年1月1日</div>
+                        <div class="timeline-event">联想正式实施新报价体系，三星DRAM价格同比上涨100%</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2025年12月7-11日</div>
+                        <div class="timeline-event">联想、戴尔、惠普宣布PC涨价，笔记本和台式机涨幅最高达15%-20%</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2025年12月3-4日</div>
+                        <div class="timeline-event">美光宣布退出Crucial消费业务，战略转向AI数据中心客户</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item medium-impact">
+                        <div class="timeline-date">2025年11月25日</div>
+                        <div class="timeline-event">DRAM价格同比上涨171.8%，海盗船32GB DDR5套件4个月内价格翻倍</div>
+                        <span class="timeline-impact medium">中等影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2025年11月14日</div>
+                        <div class="timeline-event">三星、SK海力士、美光和铠侠计划减产NAND闪存，三星将NAND价格上调20-30%</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2025年10月28日</div>
+                        <div class="timeline-event">服务器DRAM价格飙升高达50%，超大规模数据中心订单履行率仅70%</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item medium-impact">
+                        <div class="timeline-date">2025年10月14日</div>
+                        <div class="timeline-event">Windows 10终止支持，全球PC出货量Q3同比增长6.8%</div>
+                        <span class="timeline-impact medium">中等影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2025年9月初</div>
+                        <div class="timeline-event">美光暂停报价后恢复，涨价约20%；DDR5 2Gbx8颗粒现货价格大涨307%</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item medium-impact">
+                        <div class="timeline-date">2025年9月3日</div>
+                        <div class="timeline-event">TrendForce预测DRAM合约价将在2025年底见顶，2026年初新制程产能释放将转跌</div>
+                        <span class="timeline-impact medium">中等影响</span>
+                    </div>
+
+                    <div class="timeline-item high-impact">
+                        <div class="timeline-date">2025年7月7日</div>
+                        <div class="timeline-event">TrendForce预测Q3 DRAM价格涨幅15-20%，Consumer DDR4涨幅40-45%</div>
+                        <span class="timeline-impact high">高影响</span>
+                    </div>
+
+                    <div class="timeline-item medium-impact">
+                        <div class="timeline-date">2025年5月</div>
+                        <div class="timeline-event">DRAM价格开始加速上涨，8GB DDR4芯片均价环比增长27%</div>
+                        <span class="timeline-impact medium">中等影响</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Data Table -->
+        <section class="card" id="data-section">
+            <h2 class="card-title collapsible" onclick="toggleSection('data-content')">
+                <span class="icon">📊</span>
+                详细数据表
+                <span class="collapse-icon" id="data-icon">▼</span>
+            </h2>
+            <div class="collapsible-content" id="data-content">
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    以下表格提供了各月份详细的价格数据，包括价格指数和平均零售价格。
+                </p>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th>DRAM指数</th>
+                                <th>NAND指数</th>
+                                <th>DDR4价格($)</th>
+                                <th>笔记本均价(¥)</th>
+                                <th>销量同比</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-table-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Retail Price Impact Chart -->
+        <section class="card" id="retail-section">
+            <h2 class="card-title collapsible" onclick="toggleSection('retail-content')">
+                <span class="icon">💰</span>
+                零售市场价格影响
+                <span class="collapse-icon" id="retail-icon">▼</span>
+            </h2>
+            <div class="collapsible-content active" id="retail-content">
+                <p style="color: var(--gray-700); margin-bottom: 1rem;">
+                    此图表展示了零售终端产品的价格变化趋势，包括笔记本电脑、智能手机和SSD的零售价格。
+                </p>
+
+                <div class="chart-container">
+                    <canvas id="retailPriceChart"></canvas>
+                </div>
+
+                <div class="chart-legend" id="chart-legend-2"></div>
+
+                <div class="insight-box" style="margin-top: 1.5rem;">
+                    <div class="insight-title">📱 零售市场影响分析</div>
+                    <div class="insight-text">
+                        <p><strong>品牌应对策略：</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><strong>联想：</strong>2026年1月1日起所有现有报价重置，部分高端商用笔记本上调20%</li>
+                            <li><strong>华硕：</strong>1月份起所有笔记本上调15%-25%</li>
+                            <li><strong>戴尔：</strong>高端商用笔记本上调25%，COO称"从未见过内存芯片成本上涨得如此之快"</li>
+                            <li><strong>苹果：</strong>高端产品涨价（M5 Pro MacBook Pro起售价提高200美元），同时推出平价MacBook Neo（4599元起）</li>
+                        </ul>
+                        
+                        <p style="margin-top: 1rem;"><strong>消费者行为变化：</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>中国笔记本线上零售销量同比暴跌40.5%</li>
+                            <li>"等等党"心态广泛蔓延，换机周期延长20%</li>
+                            <li>DIY玩家趁高位卖掉高配内存条变现</li>
+                            <li>MacBook Neo等平价产品成为新选择</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusions & Recommendations -->
+        <section class="card" id="conclusion-section">
+            <h2 class="card-title collapsible" onclick="toggleSection('conclusion-content')">
+                <span class="icon">💡</span>
+                结论与建议
+                <span class="collapse-icon" id="conclusion-icon">▼</span>
+            </h2>
+            <div class="collapsible-content active" id="conclusion-content">
+                <div class="insight-box" style="margin-top: 0;">
+                    <div class="insight-title">📝 主要结论</div>
+                    <div class="insight-text">
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><strong>AI驱动超级周期：</strong>2025-2026年存储市场迎来由AI需求驱动的"超级周期"，这是结构性变化而非短期波动。</li>
+                            
+                            <li><strong>历史性涨幅：</strong>DRAM价格同比涨幅超过170%，部分DDR4产品涨幅高达440-700%，创下存储芯片历史上涨幅最高的周期之一。</li>
+                            
+                            <li><strong>结构性供需失衡：</strong>AI算力需求导致存储芯片产能向企业级/HBM倾斜，消费级产品供应人为短缺，这种结构性变化预计持续至2027年。</li>
+                            
+                            <li><strong>零售市场冲击：</strong>笔记本电脑整机价格上涨15%-40%，中国笔记本线上零售销量同比暴跌40.5%，市场出现明显的"K型分化"。</li>
+
+                            <li><strong>市场格局重塑：</strong>美光退出消费级市场，SK海力士凭借HBM优势登顶DRAM市场，行业集中度进一步提升。</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="insight-box" style="margin-top: 1rem;">
+                    <div class="insight-title">🎯 行动建议</div>
+                    <div class="insight-text">
+                        <p><strong>对于消费者：</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>如需升级DDR4系统，立即购买（将来可能买不到）</li>
+                            <li>如需购买DDR5，等待2026年Q2-Q3价格回落</li>
+                            <li>SSD仍为最佳存储选择，SATA SSD价格稳定可立即购买</li>
+                            <li>考虑MacBook Neo等平价产品（4599元起，教育优惠后3999元）</li>
+                        </ul>
+
+                        <p style="margin-top: 1rem;"><strong>对于企业：</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>立即锁定2026年存储供应合约</li>
+                            <li>建立3-6个月安全库存</li>
+                            <li>将存储成本上涨纳入2026年IT预算规划（建议增加20-30% buffer）</li>
+                            <li>与主要供应商签订长期供货合约</li>
+                        </ul>
+
+                        <p style="margin-top: 1rem;"><strong>对于厂商：</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>优化产品组合，向高毛利产品倾斜</li>
+                            <li>加强与供应链的协同，提高响应速度</li>
+                            <li>积极引入国产存储芯片（长江存储、长鑫存储），降低成本波动风险</li>
+                            <li>通过生态和售后服务增加附加值，提高用户粘性</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>报告生成时间：<span id="report-date"></span></p>
+        <p style="margin-top: 0.5rem;">数据来源：TrendForce、Tom's Hardware、央视新闻、各公司官方公告、行业分析报告等</p>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--gray-700);">
+            © 2026 电脑硬件价格趋势分析 | 使用 Chart.js 构建 | 仅供参考
+        </p>
+    </footer>
+
+    <script>
+        // ==================== Data Structure ====================
+        const priceTrendData = {
+            metadata: {
+                title: "电脑硬件价格趋势分析报告",
+                period: "2025年11月 - 2026年5月",
+                currency: "CNY",
+                baseIndex: 100,
+                baseDate: "2025-11"
+            },
+            timeline: ["2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05"],
+            displayLabels: ["2025/11", "2025/12", "2026/01", "2026/02", "2026/03", "2026/04", "2026/05"],
+            
+            priceIndices: {
+                DRAM: [100, 150, 200, 240, 260, 270, 280],
+                NAND: [100, 130, 170, 210, 230, 235, 240],
+                SSD: [100, 110, 120, 140, 155, 165, 175]
+            },
+            
+            averagePrices: {
+                laptop: [5000, 5200, 5500, 5700, 5800, 5850, 5800],
+                smartphone: [3000, 3100, 3200, 3300, 3400, 3450, 3500],
+                ssdRetail: [400, 420, 480, 520, 540, 550, 540]
+            },
+            
+            detailedData: {
+                dramIndex: [100, 150, 200, 240, 260, 270, 280],
+                nandIndex: [100, 130, 170, 210, 230, 235, 240],
+                ddr4Price: [1.83, 3.50, 5.50, 7.50, 8.50, 9.20, 9.87],
+                laptopPrice: [5000, 5200, 5500, 5700, 5800, 5850, 5800],
+                salesChange: [0, -10, -25, -35, -40, -41, -40.5]
+            }
+        };
+
+        // ==================== Chart Configuration ====================
+        const chartColors = {
+            DRAM: { bg: 'rgba(37, 99, 235, 0.2)', border: 'rgb(37, 99, 235)' },
+            NAND: { bg: 'rgba(8, 145, 178, 0.2)', border: 'rgb(8, 145, 178)' },
+            SSD: { bg: 'rgba(16, 185, 129, 0.2)', border: 'rgb(16, 185, 129)' },
+            laptop: { bg: 'rgba(245, 158, 11, 0.2)', border: 'rgb(245, 158, 11)' },
+            smartphone: { bg: 'rgba(239, 68, 68, 0.2)', border: 'rgb(239, 68, 68)' },
+            ssdRetail: { bg: 'rgba(139, 92, 246, 0.2)', border: 'rgb(139, 92, 246)' }
+        };
+
+        // ==================== Initialize Charts ====================
+        let priceTrendChart, retailPriceChart;
+
+        function initPriceTrendChart() {
+            const ctx = document.getElementById('priceTrendChart').getContext('2d');
+            
+            priceTrendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: priceTrendData.displayLabels,
+                    datasets: [
+                        {
+                            label: 'DRAM 价格指数',
+                            data: priceTrendData.priceIndices.DRAM,
+                            borderColor: chartColors.DRAM.border,
+                            backgroundColor: chartColors.DRAM.bg,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 8
+                        },
+                        {
+                            label: 'NAND 价格指数',
+                            data: priceTrendData.priceIndices.NAND,
+                            borderColor: chartColors.NAND.border,
+                            backgroundColor: chartColors.NAND.bg,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 8
+                        },
+                        {
+                            label: 'SSD 价格指数',
+                            data: priceTrendData.priceIndices.SSD,
+                            borderColor: chartColors.SSD.border,
+                            backgroundColor: chartColors.SSD.bg,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 8
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + ' (基线: 100)';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 80,
+                            title: {
+                                display: true,
+                                text: '价格指数 (基线=100)',
+                                font: { size: 14 }
+                            },
+                            ticks: {
+                                font: { size: 12 }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 12 }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Create custom legend
+            createChartLegend('chart-legend-1', priceTrendChart);
+        }
+
+        function initRetailPriceChart() {
+            const ctx = document.getElementById('retailPriceChart').getContext('2d');
+            
+            retailPriceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: priceTrendData.displayLabels,
+                    datasets: [
+                        {
+                            label: '笔记本电脑 (¥)',
+                            data: priceTrendData.averagePrices.laptop,
+                            borderColor: chartColors.laptop.border,
+                            backgroundColor: chartColors.laptop.bg,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '智能手机 (¥)',
+                            data: priceTrendData.averagePrices.smartphone,
+                            borderColor: chartColors.smartphone.border,
+                            backgroundColor: chartColors.smartphone.bg,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'SSD 零售价 (¥)',
+                            data: priceTrendData.averagePrices.ssdRetail,
+                            borderColor: chartColors.ssdRetail.border,
+                            backgroundColor: chartColors.ssdRetail.bg,
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ¥' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: '设备价格 (¥)',
+                                font: { size: 14 }
+                            },
+                            ticks: {
+                                font: { size: 11 },
+                                callback: function(value) {
+                                    return '¥' + value;
+                                }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'SSD价格 (¥)',
+                                font: { size: 14 }
+                            },
+                            ticks: {
+                                font: { size: 11 },
+                                callback: function(value) {
+                                    return '¥' + value;
+                                }
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 12 }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Create custom legend
+            createChartLegend('chart-legend-2', retailPriceChart);
+        }
+
+        // ==================== Helper Functions ====================
+        function createChartLegend(containerId, chart) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            chart.data.datasets.forEach((dataset, index) => {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.onclick = () => toggleDataset(chart, index);
+                
+                const colorBox = document.createElement('div');
+                colorBox.className = 'legend-color';
+                colorBox.style.backgroundColor = dataset.borderColor;
+                
+                const label = document.createElement('span');
+                label.textContent = dataset.label;
+                
+                legendItem.appendChild(colorBox);
+                legendItem.appendChild(label);
+                container.appendChild(legendItem);
+            });
+        }
+
+        function toggleDataset(chart, index) {
+            const meta = chart.getDatasetMeta(index);
+            meta.hidden = meta.hidden === null ? true : null;
+            chart.update();
+        }
+
+        function toggleSection(contentId) {
+            const content = document.getElementById(contentId);
+            const iconId = contentId.replace('-content', '-icon');
+            const icon = document.getElementById(iconId);
+            
+            content.classList.toggle('active');
+            icon.classList.toggle('rotated');
+        }
+
+        function populateDataTable() {
+            const tbody = document.getElementById('data-table-body');
+            tbody.innerHTML = '';
+            
+            priceTrendData.timeline.forEach((month, index) => {
+                const row = document.createElement('tr');
+                
+                const displayMonth = priceTrendData.displayLabels[index];
+                const dramIndex = priceTrendData.detailedData.dramIndex[index];
+                const nandIndex = priceTrendData.detailedData.nandIndex[index];
+                const ddr4Price = priceTrendData.detailedData.ddr4Price[index];
+                const laptopPrice = priceTrendData.detailedData.laptopPrice[index];
+                const salesChange = priceTrendData.detailedData.salesChange[index];
+                
+                row.innerHTML = `
+                    <td><strong>${displayMonth}</strong></td>
+                    <td>${dramIndex}</td>
+                    <td>${nandIndex}</td>
+                    <td>$${ddr4Price.toFixed(2)}</td>
+                    <td>¥${laptopPrice.toLocaleString()}</td>
+                    <td>${salesChange}%</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // ==================== Floating Navigation ====================
+        function toggleNav() {
+            const nav = document.getElementById('floating-nav');
+            nav.classList.toggle('expanded');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-list a');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - 200) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        function checkScrollPosition() {
+            const backToTopBtn = document.getElementById('back-to-top');
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        }
+
+        // ==================== Initialize ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set report date
+            document.getElementById('report-date').textContent = new Date().toLocaleString('zh-CN');
+            
+            // Initialize charts
+            initPriceTrendChart();
+            initRetailPriceChart();
+            
+            // Populate data table
+            populateDataTable();
+            
+            // Add scroll event listeners for floating nav
+            window.addEventListener('scroll', function() {
+                updateActiveNavLink();
+                checkScrollPosition();
+            });
+            
+            // Smooth scroll for nav links
+            document.querySelectorAll('.nav-list a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close nav after clicking on mobile
+                        if (window.innerWidth < 640) {
+                            document.getElementById('floating-nav').classList.remove('expanded');
+                        }
+                    }
+                });
+            });
+        });
+
+        // Make charts responsive on resize
+        window.addEventListener('resize', function() {
+            if (priceTrendChart) priceTrendChart.resize();
+            if (retailPriceChart) retailPriceChart.resize();
+        });
+    </script>
+</body>
+</html>
